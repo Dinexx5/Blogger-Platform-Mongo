@@ -12,8 +12,6 @@ import { CommentsModule } from './entities/comments/comments.module';
 import { TestingModule } from './entities/testing/testing.module';
 import { BansModule } from './entities/bans/bans.module';
 
-console.log('FROM APPMODULE: ', process.env.MAIL_PASS);
-
 @Module({
   imports: [
     configModule,

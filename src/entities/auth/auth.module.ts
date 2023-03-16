@@ -17,8 +17,6 @@ import { TokensModule } from '../tokens/token.module';
 import { BansRepository } from '../bans/bans.repository';
 import { Ban, BanSchema } from '../bans/bans.schema';
 
-console.log('FROM AUTHMODULE: ', process.env.MAIL_PASS);
-
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),

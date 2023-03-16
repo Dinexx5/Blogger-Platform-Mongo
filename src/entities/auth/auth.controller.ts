@@ -23,7 +23,7 @@ export class AuthController {
     protected usersRepository: UsersRepository,
   ) {}
 
-  @UseGuards(RateLimitGuard, LocalAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req, @CurrentUser() userId, @Res() res: Response) {
     const ip = req.ip;
@@ -69,7 +69,7 @@ export class AuthController {
     return res.sendStatus(204);
   }
 
-  @UseGuards(RateLimitGuard)
+  // @UseGuards(RateLimitGuard)
   @Post('registration')
   async registerUser(@Body() inputModel: CreateUserModel, @Res() res: Response) {
     const createdAccount = await this.authService.createUser(inputModel);
@@ -77,7 +77,7 @@ export class AuthController {
     return res.sendStatus(204);
   }
 
-  @UseGuards(RateLimitGuard)
+  // @UseGuards(RateLimitGuard)
   @Post('registration-email-resending')
   async resendEmail(@Body() inputModel: ResendEmailModel, @Res() res: Response) {
     const isEmailResent = await this.authService.resendEmail(inputModel.email);
@@ -85,7 +85,7 @@ export class AuthController {
     return res.sendStatus(204);
   }
 
-  @UseGuards(RateLimitGuard)
+  // @UseGuards(RateLimitGuard)
   @Post('registration-confirmation')
   async confirmEmail(@Body() inputModel: ConfirmEmailModel, @Res() res: Response) {
     const isConfirmed = await this.authService.confirmEmail(inputModel.code);
@@ -93,7 +93,7 @@ export class AuthController {
     return res.sendStatus(204);
   }
 
-  @UseGuards(RateLimitGuard)
+  // @UseGuards(RateLimitGuard)
   @Post('password-recovery')
   async recoverPassword(@Body() inputModel: PasswordRecoveryModel, @Res() res: Response) {
     const isEmailSent = await this.authService.sendEmailForPasswordRecovery(inputModel.email);
@@ -101,7 +101,7 @@ export class AuthController {
     return res.sendStatus(204);
   }
 
-  @UseGuards(RateLimitGuard)
+  // @UseGuards(RateLimitGuard)
   @Post('new-password')
   async newPassword(@Body() inputModel: NewPasswordModel, @Res() res: Response) {
     const isPasswordUpdated = await this.authService.updatePassword(inputModel);
