@@ -1,0 +1,35 @@
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
+} from 'class-validator';
+import { Injectable } from '@nestjs/common';
+import { BlogsRepository } from '../../../entities/blogs/blogs.repository';
+
+@ValidatorConstraint({ name: 'IsBlogExists', async: true })
+@Injectable()
+export class IsBlogExistsDecorator implements ValidatorConstraintInterface {
+  constructor(private blogsRepository: BlogsRepository) {}
+  async validate(blogId: string, args: ValidationArguments) {
+    const blog = await this.blogsRepository.findBlogInstance(blogId);
+    if (!blog || blog.blogOwnerInfo.userId) return false;
+    return true;
+  }
+  defaultMessage(args: ValidationArguments) {
+    return `Blog already bound or doesn't exist`;
+  }
+}
+
+export function IsBlogExists(validationOptions?: ValidationOptions) {
+  return function (object: any, propertyName: string) {
+    registerDecorator({
+      name: 'IsBlogExists',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: IsBlogExistsDecorator,
+    });
+  };
+}
