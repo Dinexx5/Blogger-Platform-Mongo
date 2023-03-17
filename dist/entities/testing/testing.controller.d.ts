@@ -8,6 +8,8 @@ import { AttemptDocument } from '../attempts/attempts.schema';
 import { TokenDocument } from '../tokens/token.schema';
 import { DeviceDocument } from '../devices/devices.schema';
 import { BanDocument } from '../bans/bans.schema';
+import { PostLikeDocument } from '../likes/posts.like.schema';
+import { CommentLikeDocument } from '../likes/comments.like.schema';
 export declare class TestingController {
     private blogModel;
     private postModel;
@@ -17,6 +19,8 @@ export declare class TestingController {
     private tokenModel;
     private deviceModel;
     private banModel;
-    constructor(blogModel: Model<BlogDocument>, postModel: Model<PostDocument>, userModel: Model<UserDocument>, commentModel: Model<CommentDocument>, attemptModel: Model<AttemptDocument>, tokenModel: Model<TokenDocument>, deviceModel: Model<DeviceDocument>, banModel: Model<BanDocument>);
+    private postLikeModel;
+    private commentLikeModel;
+    constructor(blogModel: Model<BlogDocument>, postModel: Model<PostDocument>, userModel: Model<UserDocument>, commentModel: Model<CommentDocument>, attemptModel: Model<AttemptDocument>, tokenModel: Model<TokenDocument>, deviceModel: Model<DeviceDocument>, banModel: Model<BanDocument>, postLikeModel: Model<PostLikeDocument>, commentLikeModel: Model<CommentLikeDocument>);
     deleteAll(res: Response): Promise<Response<any, Record<string, any>>>;
 }

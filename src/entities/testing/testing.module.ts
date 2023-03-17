@@ -9,6 +9,8 @@ import { Attempt, AttemptSchema } from '../attempts/attempts.schema';
 import { Token, TokenSchema } from '../tokens/token.schema';
 import { Device, DeviceSchema } from '../devices/devices.schema';
 import { Ban, BanSchema } from '../bans/bans.schema';
+import { CommentLike, CommentLikeSchema } from '../likes/comments.like.schema';
+import { PostLike, PostLikeSchema } from '../likes/posts.like.schema';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { Ban, BanSchema } from '../bans/bans.schema';
     MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),
     MongooseModule.forFeature([{ name: Device.name, schema: DeviceSchema }]),
     MongooseModule.forFeature([{ name: Ban.name, schema: BanSchema }]),
+    MongooseModule.forFeature([{ name: CommentLike.name, schema: CommentLikeSchema }]),
+    MongooseModule.forFeature([{ name: PostLike.name, schema: PostLikeSchema }]),
   ],
   providers: [],
   controllers: [TestingController],

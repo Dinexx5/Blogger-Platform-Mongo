@@ -10,6 +10,8 @@ import { Attempt, AttemptDocument } from '../attempts/attempts.schema';
 import { Token, TokenDocument } from '../tokens/token.schema';
 import { Device, DeviceDocument } from '../devices/devices.schema';
 import { Ban, BanDocument } from '../bans/bans.schema';
+import { PostLike, PostLikeDocument } from '../likes/posts.like.schema';
+import { CommentLike, CommentLikeDocument } from '../likes/comments.like.schema';
 
 @Controller('testing')
 export class TestingController {
@@ -22,6 +24,8 @@ export class TestingController {
     @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
     @InjectModel(Ban.name) private banModel: Model<BanDocument>,
+    @InjectModel(PostLike.name) private postLikeModel: Model<PostLikeDocument>,
+    @InjectModel(CommentLike.name) private commentLikeModel: Model<CommentLikeDocument>,
   ) {}
   @Delete('all-data')
   async deleteAll(@Res() res: Response) {
@@ -33,6 +37,8 @@ export class TestingController {
     await this.tokenModel.deleteMany({});
     await this.deviceModel.deleteMany({});
     await this.banModel.deleteMany({});
+    await this.postLikeModel.deleteMany({});
+    await this.commentLikeModel.deleteMany({});
     return res.sendStatus(204);
   }
 }

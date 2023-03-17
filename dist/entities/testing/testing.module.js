@@ -18,6 +18,8 @@ const attempts_schema_1 = require("../attempts/attempts.schema");
 const token_schema_1 = require("../tokens/token.schema");
 const devices_schema_1 = require("../devices/devices.schema");
 const bans_schema_1 = require("../bans/bans.schema");
+const comments_like_schema_1 = require("../likes/comments.like.schema");
+const posts_like_schema_1 = require("../likes/posts.like.schema");
 let TestingModule = class TestingModule {
 };
 TestingModule = __decorate([
@@ -31,6 +33,8 @@ TestingModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: token_schema_1.Token.name, schema: token_schema_1.TokenSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: devices_schema_1.Device.name, schema: devices_schema_1.DeviceSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: bans_schema_1.Ban.name, schema: bans_schema_1.BanSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: comments_like_schema_1.CommentLike.name, schema: comments_like_schema_1.CommentLikeSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: posts_like_schema_1.PostLike.name, schema: posts_like_schema_1.PostLikeSchema }]),
         ],
         providers: [],
         controllers: [testing_controller_1.TestingController],

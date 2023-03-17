@@ -24,8 +24,10 @@ const attempts_schema_1 = require("../attempts/attempts.schema");
 const token_schema_1 = require("../tokens/token.schema");
 const devices_schema_1 = require("../devices/devices.schema");
 const bans_schema_1 = require("../bans/bans.schema");
+const posts_like_schema_1 = require("../likes/posts.like.schema");
+const comments_like_schema_1 = require("../likes/comments.like.schema");
 let TestingController = class TestingController {
-    constructor(blogModel, postModel, userModel, commentModel, attemptModel, tokenModel, deviceModel, banModel) {
+    constructor(blogModel, postModel, userModel, commentModel, attemptModel, tokenModel, deviceModel, banModel, postLikeModel, commentLikeModel) {
         this.blogModel = blogModel;
         this.postModel = postModel;
         this.userModel = userModel;
@@ -34,6 +36,8 @@ let TestingController = class TestingController {
         this.tokenModel = tokenModel;
         this.deviceModel = deviceModel;
         this.banModel = banModel;
+        this.postLikeModel = postLikeModel;
+        this.commentLikeModel = commentLikeModel;
     }
     async deleteAll(res) {
         await this.blogModel.deleteMany({});
@@ -44,6 +48,8 @@ let TestingController = class TestingController {
         await this.tokenModel.deleteMany({});
         await this.deviceModel.deleteMany({});
         await this.banModel.deleteMany({});
+        await this.postLikeModel.deleteMany({});
+        await this.commentLikeModel.deleteMany({});
         return res.sendStatus(204);
     }
 };
@@ -64,7 +70,11 @@ TestingController = __decorate([
     __param(5, (0, mongoose_1.InjectModel)(token_schema_1.Token.name)),
     __param(6, (0, mongoose_1.InjectModel)(devices_schema_1.Device.name)),
     __param(7, (0, mongoose_1.InjectModel)(bans_schema_1.Ban.name)),
+    __param(8, (0, mongoose_1.InjectModel)(posts_like_schema_1.PostLike.name)),
+    __param(9, (0, mongoose_1.InjectModel)(comments_like_schema_1.CommentLike.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
