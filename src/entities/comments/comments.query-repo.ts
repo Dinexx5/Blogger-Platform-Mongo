@@ -96,8 +96,13 @@ export class CommentsQueryRepository {
     userId?: string | null,
   ): Promise<CommentViewModel | null> {
     const _id = new mongoose.Types.ObjectId(commentId);
+    const bannedComments = await this.bansRepository.getBannedComments();
+    const bannedCommentsStrings = bannedComments.map((commentId) => commentId.toString());
     const foundComment: CommentDocument | null = await this.commentModel.findOne({ _id: _id });
     if (!foundComment) {
+      return null;
+    }
+    if (bannedCommentsStrings.includes(foundComment._id.toString())) {
       return null;
     }
     await this.countLikesForComment(foundComment, userId);

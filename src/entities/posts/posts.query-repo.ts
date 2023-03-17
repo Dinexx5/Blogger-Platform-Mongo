@@ -113,10 +113,15 @@ export class PostsQueryRepository {
 
   async findPostById(postId: string, userId?: string | null): Promise<PostViewModel | null> {
     const _id = new mongoose.Types.ObjectId(postId);
+    const bannedPosts = await this.bansRepository.getBannedPosts();
+    const bannedPostsStrings = bannedPosts.map((postId) => postId.toString());
     const foundPost: PostDocument | null = await this.postModel.findOne({
       _id: _id,
     });
     if (!foundPost) {
+      return null;
+    }
+    if (bannedPostsStrings.includes(foundPost._id.toString())) {
       return null;
     }
     await this.countLikesForPost(foundPost, userId);
