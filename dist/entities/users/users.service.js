@@ -70,7 +70,7 @@ let UsersService = class UsersService {
                 recoveryCode: null,
                 expirationDate: null,
             },
-            banInfo: { isBanned: false, banDate: 'None', banReason: 'None' },
+            banInfo: { isBanned: false, banDate: null, banReason: null },
         };
         const userInstance = await this.saveUser(userDTO);
         return {
@@ -78,6 +78,11 @@ let UsersService = class UsersService {
             login: userInstance.accountData.login,
             email: userInstance.accountData.email,
             createdAt: userInstance.accountData.createdAt,
+            banInfo: {
+                isBanned: userInstance.banInfo.isBanned,
+                banDate: userInstance.banInfo.banDate,
+                banReason: userInstance.banInfo.banReason,
+            },
         };
     }
     async deleteUserById(userId) {

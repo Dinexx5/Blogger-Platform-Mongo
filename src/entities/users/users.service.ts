@@ -6,7 +6,7 @@ import { UsersRepository } from './users.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { add } from 'date-fns';
 import * as bcrypt from 'bcrypt';
-import { CreateUserModel, NewPasswordModel, userViewModel } from './userModels';
+import { CreateUserModel, NewPasswordModel, SaUserViewModel } from './userModels';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +15,7 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  async createUser(inputModel: CreateUserModel): Promise<userViewModel> {
+  async createUser(inputModel: CreateUserModel): Promise<SaUserViewModel> {
     const passwordHash = await this.generateHash(inputModel.password);
     const userDTO = {
       _id: new mongoose.Types.ObjectId(),
@@ -36,7 +36,7 @@ export class UsersService {
         recoveryCode: null,
         expirationDate: null,
       },
-      banInfo: { isBanned: false, banDate: 'None', banReason: 'None' },
+      banInfo: { isBanned: false, banDate: null, banReason: null },
     };
     const userInstance = await this.saveUser(userDTO);
     return {
@@ -44,6 +44,11 @@ export class UsersService {
       login: userInstance.accountData.login,
       email: userInstance.accountData.email,
       createdAt: userInstance.accountData.createdAt,
+      banInfo: {
+        isBanned: userInstance.banInfo.isBanned,
+        banDate: userInstance.banInfo.banDate,
+        banReason: userInstance.banInfo.banReason,
+      },
     };
   }
   async deleteUserById(userId: string): Promise<boolean> {

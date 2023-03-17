@@ -1,12 +1,12 @@
 import mongoose, { Model } from 'mongoose';
 import { User, UserDocument } from './users.schema';
 import { UsersRepository } from './users.repository';
-import { CreateUserModel, NewPasswordModel, userViewModel } from './userModels';
+import { CreateUserModel, NewPasswordModel, SaUserViewModel } from './userModels';
 export declare class UsersService {
     protected usersRepository: UsersRepository;
     private userModel;
     constructor(usersRepository: UsersRepository, userModel: Model<UserDocument>);
-    createUser(inputModel: CreateUserModel): Promise<userViewModel>;
+    createUser(inputModel: CreateUserModel): Promise<SaUserViewModel>;
     deleteUserById(userId: string): Promise<boolean>;
     findUserByLoginOrEmail(login: string): Promise<UserDocument | null>;
     generateHash(password: string): Promise<string>;
