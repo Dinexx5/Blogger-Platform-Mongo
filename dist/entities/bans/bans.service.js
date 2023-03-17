@@ -64,6 +64,8 @@ let BansService = class BansService {
             return;
         }
         userInstance.banInfo.isBanned = false;
+        userInstance.banInfo.banDate = null;
+        userInstance.banInfo.banReason = null;
         userInstance.markModified('banInfo');
         await this.usersRepository.save(userInstance);
         await bananaInstance.deleteOne();
