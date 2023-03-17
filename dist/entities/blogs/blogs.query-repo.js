@@ -65,8 +65,9 @@ let BlogsQueryRepository = class BlogsQueryRepository {
             filter.name = { $regex: searchNameTerm, $options: 'i' };
         }
         if (userId) {
-            filter.ownerId = { $regex: userId };
+            filter['blogOwnerInfo.userId'] = userId;
         }
+        console.log(filter);
         const countAll = await this.blogModel.countDocuments(filter);
         const blogsDb = await this.blogModel
             .find(filter)

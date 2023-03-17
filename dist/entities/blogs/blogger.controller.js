@@ -52,7 +52,7 @@ let BloggerController = class BloggerController {
         await this.postsService.UpdatePostById(inputModel, params.postId, params.blogId, userId);
         return res.sendStatus(204);
     }
-    async deletePost(inputModel, params, res, userId) {
+    async deletePost(params, res, userId) {
         await this.postsService.deletePostById(params.postId, params.blogId, userId);
         return res.sendStatus(204);
     }
@@ -123,14 +123,12 @@ __decorate([
 ], BloggerController.prototype, "updatePost", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAccessAuthGuard),
-    (0, common_1.Put)(':blogId/posts/:postId'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)()),
-    __param(2, (0, common_1.Res)()),
-    __param(3, (0, current_user_decorator_1.CurrentUser)()),
+    (0, common_1.Delete)(':blogId/posts/:postId'),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Res)()),
+    __param(2, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [posts_schema_1.updatePostModel,
-        blogs_models_1.blogAndPostParamModel, Object, Object]),
+    __metadata("design:paramtypes", [blogs_models_1.blogAndPostParamModel, Object, Object]),
     __metadata("design:returntype", Promise)
 ], BloggerController.prototype, "deletePost", null);
 BloggerController = __decorate([

@@ -17,5 +17,5 @@ export declare class BloggerController {
     deleteBlog(params: blogParamModel, res: Response, userId: any): Promise<Response<any, Record<string, any>>>;
     createPost(inputModel: createPostModel, params: blogParamModel, res: Response, userId: any): Promise<Response<any, Record<string, any>>>;
     updatePost(inputModel: updatePostModel, params: blogAndPostParamModel, res: Response, userId: any): Promise<Response<any, Record<string, any>>>;
-    deletePost(inputModel: updatePostModel, params: blogAndPostParamModel, res: Response, userId: any): Promise<Response<any, Record<string, any>>>;
+    deletePost(params: blogAndPostParamModel, res: Response, userId: any): Promise<Response<any, Record<string, any>>>;
 }

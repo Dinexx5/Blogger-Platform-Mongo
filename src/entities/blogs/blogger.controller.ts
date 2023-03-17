@@ -82,9 +82,8 @@ export class BloggerController {
     return res.sendStatus(204);
   }
   @UseGuards(JwtAccessAuthGuard)
-  @Put(':blogId/posts/:postId')
+  @Delete(':blogId/posts/:postId')
   async deletePost(
-    @Body() inputModel: updatePostModel,
     @Param() params: blogAndPostParamModel,
     @Res() res: Response,
     @CurrentUser() userId,

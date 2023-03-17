@@ -42,14 +42,15 @@ export class BlogsQueryRepository {
     const filter = { _id: { $nin: bannedBlogs } } as {
       _id: { $nin: mongoose.Types.ObjectId[] };
       name?: { $regex: string; $options: string };
-      ownerId?: { $regex: string };
+      'blogOwnerInfo.userId'?: string;
     };
     if (searchNameTerm) {
       filter.name = { $regex: searchNameTerm, $options: 'i' };
     }
     if (userId) {
-      filter.ownerId = { $regex: userId };
+      filter['blogOwnerInfo.userId'] = userId;
     }
+    console.log(filter);
 
     const countAll = await this.blogModel.countDocuments(filter);
     const blogsDb = await this.blogModel
