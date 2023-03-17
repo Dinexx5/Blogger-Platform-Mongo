@@ -43,11 +43,17 @@ let SaUsersQueryRepository = class SaUsersQueryRepository {
         if (banSearchTerm === true || banSearchTerm === false) {
             filter['banInfo.isBanned'] = banSearchTerm;
         }
-        if (searchLoginTerm) {
+        if (searchLoginTerm && !searchEmailTerm) {
             filter['accountData.login'] = { $regex: searchLoginTerm, $options: 'i' };
         }
-        if (searchEmailTerm) {
+        if (searchEmailTerm && !searchLoginTerm) {
             filter['accountData.email'] = { $regex: searchEmailTerm, $options: 'i' };
+        }
+        if (searchLoginTerm && searchEmailTerm) {
+            filter.$or = [
+                { 'accountData.email': { $regex: searchEmailTerm, $options: 'i' } },
+                { 'accountData.login': { $regex: searchLoginTerm, $options: 'i' } },
+            ];
         }
         const countAll = await this.userModel.countDocuments(filter);
         const usersDb = await this.userModel

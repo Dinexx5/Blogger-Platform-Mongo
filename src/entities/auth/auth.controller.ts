@@ -31,7 +31,7 @@ export class AuthController {
     const accessToken = await this.authService.createJwtAccessToken(userId);
     const refreshToken = await this.authService.createJwtRefreshToken(userId, deviceName, ip);
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
     });
     res.status(200).json({ accessToken: accessToken });
@@ -55,7 +55,7 @@ export class AuthController {
     const newAccessToken = await this.authService.createJwtAccessToken(userId);
     const newRefreshToken = await this.authService.updateJwtRefreshToken(deviceId, exp, userId);
     res.cookie('refreshToken', newRefreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
     });
     res.status(200).json({ accessToken: newAccessToken });

@@ -70,7 +70,7 @@ export class BanModel {
   isBanned: boolean;
   @IsString()
   @IsNotEmpty()
-  @Length(1, 20)
+  @Length(20, 300)
   banReason: string;
 }
 

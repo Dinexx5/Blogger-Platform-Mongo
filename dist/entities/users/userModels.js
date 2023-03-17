@@ -105,7 +105,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.Length)(1, 20),
+    (0, class_validator_1.Length)(20, 300),
     __metadata("design:type", String)
 ], BanModel.prototype, "banReason", void 0);
 exports.BanModel = BanModel;
