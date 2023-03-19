@@ -39,7 +39,7 @@ exports.BlogsRepository = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = __importStar(require("mongoose"));
 const mongoose_2 = require("@nestjs/mongoose");
-const blogs_schema_1 = require("./blogs.schema");
+const blogs_schema_1 = require("./domain/blogs.schema");
 let BlogsRepository = class BlogsRepository {
     constructor(blogModel) {
         this.blogModel = blogModel;
@@ -49,7 +49,7 @@ let BlogsRepository = class BlogsRepository {
         const blogInstance = await this.blogModel.findOne({ _id: _id });
         return blogInstance;
     }
-    async findBannedBlogs(userId) {
+    async findBlogsForUser(userId) {
         const blogsInstances = await this.blogModel.find({ 'blogOwnerInfo.userId': userId }).lean();
         const blogs = blogsInstances.map((blog) => blog._id.toString());
         return blogs;

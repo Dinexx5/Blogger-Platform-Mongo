@@ -15,22 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BloggerController = void 0;
 const common_1 = require("@nestjs/common");
 const blogs_service_1 = require("./blogs.service");
-const blogs_schema_1 = require("./blogs.schema");
+const blogs_schema_1 = require("./domain/blogs.schema");
 const posts_schema_1 = require("../posts/posts.schema");
 const posts_service_1 = require("../posts/posts.service");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const blogs_models_1 = require("./blogs.models");
 const current_user_decorator_1 = require("../../shared/decorators/current-user.decorator");
 const blogs_query_repo_1 = require("./blogs.query-repo");
+const blogger_comments_query_repo_1 = require("./domain/blogger.comments.query-repo");
 let BloggerController = class BloggerController {
-    constructor(blogsService, postsService, blogsQueryRepo) {
+    constructor(blogsService, postsService, blogsQueryRepo, bloggerCommentsQueryRepo) {
         this.blogsService = blogsService;
         this.postsService = postsService;
         this.blogsQueryRepo = blogsQueryRepo;
+        this.bloggerCommentsQueryRepo = bloggerCommentsQueryRepo;
     }
     async getBlogs(paginationQuery, userId) {
         const returnedBlogs = await this.blogsQueryRepo.getAllBlogs(paginationQuery, userId);
         return returnedBlogs;
+    }
+    async getComments(paginationQuery, userId) {
+        const returnedComments = await this.bloggerCommentsQueryRepo.getAllComments(paginationQuery, userId);
+        return returnedComments;
     }
     async createBlog(inputModel, userId) {
         const createdInstance = await this.blogsService.createBlog(inputModel, userId);
@@ -66,6 +72,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], BloggerController.prototype, "getBlogs", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAccessAuthGuard),
+    (0, common_1.Get)('/comments'),
+    __param(0, (0, common_1.Query)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], BloggerController.prototype, "getComments", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAccessAuthGuard),
     (0, common_1.Post)(),
@@ -135,7 +150,8 @@ BloggerController = __decorate([
     (0, common_1.Controller)('blogger/blogs'),
     __metadata("design:paramtypes", [blogs_service_1.BlogsService,
         posts_service_1.PostsService,
-        blogs_query_repo_1.BlogsQueryRepository])
+        blogs_query_repo_1.BlogsQueryRepository,
+        blogger_comments_query_repo_1.BloggerCommentsQueryRepository])
 ], BloggerController);
 exports.BloggerController = BloggerController;
 //# sourceMappingURL=blogger.controller.js.map

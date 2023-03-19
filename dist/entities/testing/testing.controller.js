@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestingController = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const blogs_schema_1 = require("../blogs/blogs.schema");
+const blogs_schema_1 = require("../blogs/domain/blogs.schema");
 const mongoose_2 = require("mongoose");
 const posts_schema_1 = require("../posts/posts.schema");
 const users_schema_1 = require("../users/users.schema");
@@ -23,7 +23,7 @@ const comments_schema_1 = require("../comments/comments.schema");
 const attempts_schema_1 = require("../attempts/attempts.schema");
 const token_schema_1 = require("../tokens/token.schema");
 const devices_schema_1 = require("../devices/devices.schema");
-const bans_schema_1 = require("../bans/bans.schema");
+const bans_schema_1 = require("../bans/application/domain/bans.schema");
 const posts_like_schema_1 = require("../likes/posts.like.schema");
 const comments_like_schema_1 = require("../likes/comments.like.schema");
 let TestingController = class TestingController {

@@ -9,8 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BansModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const bans_service_1 = require("../bans/bans.service");
-const bans_schema_1 = require("../bans/bans.schema");
+const ban_user_use_case_1 = require("./application/use-cases/ban.user.use.case.");
+const bans_schema_1 = require("./application/domain/bans.schema");
 const bans_repository_1 = require("../bans/bans.repository");
 const bans_controller_1 = require("./bans.controller");
 const users_module_1 = require("../users/users.module");
@@ -21,11 +21,13 @@ const devices_module_1 = require("../devices/devices.module");
 const posts_module_1 = require("../posts/posts.module");
 const comments_module_1 = require("../comments/comments.module");
 const users_schema_1 = require("../users/users.schema");
+const cqrs_1 = require("@nestjs/cqrs");
 let BansModule = class BansModule {
 };
 BansModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            cqrs_1.CqrsModule,
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             blogs_module_1.BlogsModule,
@@ -36,9 +38,9 @@ BansModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: bans_schema_1.Ban.name, schema: bans_schema_1.BanSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: users_schema_1.User.name, schema: users_schema_1.UserSchema }]),
         ],
-        providers: [bans_service_1.BansService, bans_repository_1.BansRepository],
+        providers: [ban_user_use_case_1.BansUserUseCase, bans_repository_1.BansRepository],
         controllers: [bans_controller_1.BansController],
-        exports: [bans_service_1.BansService, bans_repository_1.BansRepository],
+        exports: [ban_user_use_case_1.BansUserUseCase, bans_repository_1.BansRepository],
     })
 ], BansModule);
 exports.BansModule = BansModule;

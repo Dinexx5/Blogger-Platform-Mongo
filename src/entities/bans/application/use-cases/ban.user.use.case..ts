@@ -1,19 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { UsersRepository } from '../users/users.repository';
+import { UsersRepository } from '../../../users/users.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { BanModel } from '../users/userModels';
-import { BansRepository } from './bans.repository';
-import { Ban, BanDocument } from './bans.schema';
-import { DevicesRepository } from '../devices/devices.repository';
-import { TokenRepository } from '../tokens/token.repository';
-import { BlogsRepository } from '../blogs/blogs.repository';
-import { PostsRepository } from '../posts/posts.repository';
-import { CommentsRepository } from '../comments/comments.repository';
-import { User, UserDocument } from '../users/users.schema';
+import { BanModel } from '../../../users/userModels';
+import { BansRepository } from '../../bans.repository';
+import { Ban, BanDocument } from '../domain/bans.schema';
+import { DevicesRepository } from '../../../devices/devices.repository';
+import { TokenRepository } from '../../../tokens/token.repository';
+import { BlogsRepository } from '../../../blogs/blogs.repository';
+import { PostsRepository } from '../../../posts/posts.repository';
+import { CommentsRepository } from '../../../comments/comments.repository';
+import { User, UserDocument } from '../../../users/users.schema';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-@Injectable()
-export class BansService {
+export class BansUserCommand {
+  constructor(public userId: string, public inputModel: BanModel) {}
+}
+
+@CommandHandler(BansUserCommand)
+export class BansUserUseCase implements ICommandHandler<BansUserCommand> {
   constructor(
     protected usersRepository: UsersRepository,
     protected blogsRepository: BlogsRepository,
@@ -25,10 +29,14 @@ export class BansService {
     @InjectModel(Ban.name) private banModel: Model<BanDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
-  async banUser(userId: string, inputModel: BanModel): Promise<boolean> {
+  async execute(command: BansUserCommand): Promise<boolean> {
+    const userId = command.userId;
+    const inputModel = command.inputModel;
     const userInstance = await this.usersRepository.findUserById(userId);
     const login = userInstance.accountData.login;
     if (inputModel.isBanned === true) {
+      const isBannedBefore = await this.bansRepository.findBanByUserId(userId);
+      if (isBannedBefore) return;
       userInstance.banInfo.isBanned = true;
       userInstance.banInfo.banDate = new Date().toISOString();
       userInstance.banInfo.banReason = inputModel.banReason;
@@ -36,8 +44,8 @@ export class BansService {
       await this.usersRepository.save(userInstance);
       await this.devicesRepository.deleteDevicesForBan(userId);
       await this.tokensRepository.deleteTokensForBan(userId);
-      const bannedBlogsId = await this.blogsRepository.findBannedBlogs(userId);
-      const bannedPostsId = await this.postsRepository.findBannedPosts(bannedBlogsId);
+      const bannedBlogsId = await this.blogsRepository.findBlogsForUser(userId);
+      const bannedPostsId = await this.postsRepository.findPostsForUser(bannedBlogsId);
       const bannedCommentsId = await this.commentsRepository.findBannedComments(userId);
       const banDto = {
         userId,

@@ -39,7 +39,7 @@ exports.BlogsService = void 0;
 const blogs_repository_1 = require("./blogs.repository");
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const blogs_schema_1 = require("./blogs.schema");
+const blogs_schema_1 = require("./domain/blogs.schema");
 const mongoose_2 = __importStar(require("mongoose"));
 const users_repository_1 = require("../users/users.repository");
 let BlogsService = class BlogsService {
@@ -58,6 +58,7 @@ let BlogsService = class BlogsService {
             websiteUrl: inputModel.websiteUrl,
             createdAt: new Date().toISOString(),
             blogOwnerInfo: { userId: userId, userLogin: userInstance.accountData.login },
+            banInfo: { isBanned: false, banDate: null },
         };
         const blogInstance = new this.blogModel(blogDTO);
         await this.blogsRepository.save(blogInstance);

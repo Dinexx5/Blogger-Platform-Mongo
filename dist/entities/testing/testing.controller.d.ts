@@ -1,4 +1,4 @@
-import { BlogDocument } from '../blogs/blogs.schema';
+import { BlogDocument } from '../blogs/domain/blogs.schema';
 import { Response } from 'express';
 import { Model } from 'mongoose';
 import { PostDocument } from '../posts/posts.schema';
@@ -7,7 +7,7 @@ import { CommentDocument } from '../comments/comments.schema';
 import { AttemptDocument } from '../attempts/attempts.schema';
 import { TokenDocument } from '../tokens/token.schema';
 import { DeviceDocument } from '../devices/devices.schema';
-import { BanDocument } from '../bans/bans.schema';
+import { BanDocument } from '../bans/application/domain/bans.schema';
 import { PostLikeDocument } from '../likes/posts.like.schema';
 import { CommentLikeDocument } from '../likes/comments.like.schema';
 export declare class TestingController {

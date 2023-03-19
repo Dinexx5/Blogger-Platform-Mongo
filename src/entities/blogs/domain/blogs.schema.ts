@@ -14,6 +14,14 @@ export class blogOwnerInfo {
 }
 
 @Schema()
+export class BlogBanInfoSchema {
+  @Prop()
+  isBanned: boolean;
+  @Prop()
+  banDate: string;
+}
+
+@Schema()
 export class Blog {
   @Prop()
   _id: mongoose.Schema.Types.ObjectId;
@@ -35,6 +43,9 @@ export class Blog {
 
   @Prop({ required: true })
   blogOwnerInfo: blogOwnerInfo;
+
+  @Prop({ required: true })
+  banInfo: BlogBanInfoSchema;
 }
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);

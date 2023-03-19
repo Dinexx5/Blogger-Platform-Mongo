@@ -12,26 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommentViewModel = exports.LikeInputModel = exports.CreateCommentModel = exports.CommentSchema = exports.Comment = exports.CommentatorModel = exports.LikesInfo = exports.LikingUsers = void 0;
+exports.CommentSchema = exports.Comment = exports.CommentatorModel = exports.PostInfo = exports.LikesInfo = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = __importDefault(require("mongoose"));
-const class_validator_1 = require("class-validator");
-const class_transformer_1 = require("class-transformer");
-const like_status_decorator_1 = require("../../shared/decorators/validation/like-status.decorator");
-let LikingUsers = class LikingUsers {
-};
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], LikingUsers.prototype, "id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], LikingUsers.prototype, "myStatus", void 0);
-LikingUsers = __decorate([
-    (0, mongoose_1.Schema)()
-], LikingUsers);
-exports.LikingUsers = LikingUsers;
 let LikesInfo = class LikesInfo {
 };
 __decorate([
@@ -50,6 +33,28 @@ LikesInfo = __decorate([
     (0, mongoose_1.Schema)()
 ], LikesInfo);
 exports.LikesInfo = LikesInfo;
+let PostInfo = class PostInfo {
+};
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], PostInfo.prototype, "id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], PostInfo.prototype, "title", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], PostInfo.prototype, "blogId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], PostInfo.prototype, "blogName", void 0);
+PostInfo = __decorate([
+    (0, mongoose_1.Schema)()
+], PostInfo);
+exports.PostInfo = PostInfo;
 let CommentatorModel = class CommentatorModel {
 };
 __decorate([
@@ -84,12 +89,8 @@ __decorate([
 ], Comment.prototype, "createdAt", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
-    __metadata("design:type", Array)
-], Comment.prototype, "likingUsers", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Comment.prototype, "postId", void 0);
+    __metadata("design:type", PostInfo)
+], Comment.prototype, "postInfo", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", LikesInfo)
@@ -99,31 +100,4 @@ Comment = __decorate([
 ], Comment);
 exports.Comment = Comment;
 exports.CommentSchema = mongoose_1.SchemaFactory.createForClass(Comment);
-class CreateCommentModel {
-}
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.Length)(20, 300),
-    (0, class_transformer_1.Transform)(({ value }) => { var _a; return (_a = value === null || value === void 0 ? void 0 : value.trim) === null || _a === void 0 ? void 0 : _a.call(value); }),
-    __metadata("design:type", String)
-], CreateCommentModel.prototype, "content", void 0);
-exports.CreateCommentModel = CreateCommentModel;
-class LikeInputModel {
-}
-__decorate([
-    (0, like_status_decorator_1.IsLikeStatusCorrect)(),
-    __metadata("design:type", String)
-], LikeInputModel.prototype, "likeStatus", void 0);
-exports.LikeInputModel = LikeInputModel;
-class CommentViewModel {
-    constructor(id, content, commentatorInfo, createdAt, likesInfo) {
-        this.id = id;
-        this.content = content;
-        this.commentatorInfo = commentatorInfo;
-        this.createdAt = createdAt;
-        this.likesInfo = likesInfo;
-    }
-}
-exports.CommentViewModel = CommentViewModel;
 //# sourceMappingURL=comments.schema.js.map

@@ -1,9 +1,10 @@
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Comment, CommentDocument, CommentViewModel } from './comments.schema';
+import { Comment, CommentDocument } from './comments.schema';
 import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
 import { BansRepository } from '../bans/bans.repository';
 import { CommentsLikesRepository } from '../likes/comments.likes.repository';
+import { CommentViewModel } from './comments.models';
 
 function mapperToCommentViewModel(comment: CommentDocument): CommentViewModel {
   return {
@@ -49,7 +50,6 @@ export class CommentsQueryRepository {
       .limit(+pageSize);
 
     await this.countLikesForComments(commentsDb, userId);
-    console.log(commentsDb);
 
     const commentsView = commentsDb.map(mapperToCommentViewModel);
     return {

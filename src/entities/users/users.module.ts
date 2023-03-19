@@ -11,7 +11,7 @@ import { IsConfirmationCodeCorrect } from '../../shared/decorators/validation/co
 import { EmailResendingDecorator } from '../../shared/decorators/validation/email-resending.decorator';
 import { IsRecoveryCodeCorrect } from '../../shared/decorators/validation/password-recovery.decorator';
 import { IsUserExistsDecorator } from '../../shared/decorators/validation/user-exists.decorator';
-import { Ban, BanSchema } from '../bans/bans.schema';
+import { Ban, BanSchema } from '../bans/application/domain/bans.schema';
 import { DevicesRepository } from '../devices/devices.repository';
 import { Device, DeviceSchema } from '../devices/devices.schema';
 import { TokenRepository } from '../tokens/token.repository';

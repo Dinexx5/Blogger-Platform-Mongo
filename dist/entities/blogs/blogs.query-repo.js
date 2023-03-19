@@ -37,9 +37,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlogsQueryRepository = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const blogs_schema_1 = require("./blogs.schema");
+const blogs_schema_1 = require("./domain/blogs.schema");
 const mongoose_2 = __importStar(require("mongoose"));
 const bans_repository_1 = require("../bans/bans.repository");
+const bans_blogs_repository_1 = require("../bans/bans.blogs.repository");
 function mapFoundBlogToBlogViewModel(blog) {
     return {
         name: blog.name,
@@ -51,23 +52,25 @@ function mapFoundBlogToBlogViewModel(blog) {
     };
 }
 let BlogsQueryRepository = class BlogsQueryRepository {
-    constructor(bansRepository, blogModel) {
+    constructor(bansRepository, blogBansRepository, blogModel) {
         this.bansRepository = bansRepository;
+        this.blogBansRepository = blogBansRepository;
         this.blogModel = blogModel;
     }
     async getAllBlogs(query, userId) {
         const { sortDirection = 'desc', sortBy = 'createdAt', pageNumber = 1, pageSize = 10, searchNameTerm = null, } = query;
         const sortDirectionInt = sortDirection === 'desc' ? -1 : 1;
         const skippedBlogsCount = (+pageNumber - 1) * +pageSize;
-        const bannedBlogs = await this.bansRepository.getBannedBlogs();
-        const filter = { _id: { $nin: bannedBlogs } };
+        const bannedBlogsFromUsers = await this.bansRepository.getBannedBlogs();
+        const bannedBlogs = await this.blogBansRepository.getBannedBlogs();
+        const allBannedBlogs = bannedBlogs.concat(bannedBlogsFromUsers);
+        const filter = { _id: { $nin: allBannedBlogs } };
         if (searchNameTerm) {
             filter.name = { $regex: searchNameTerm, $options: 'i' };
         }
         if (userId) {
             filter['blogOwnerInfo.userId'] = userId;
         }
-        console.log(filter);
         const countAll = await this.blogModel.countDocuments(filter);
         const blogsDb = await this.blogModel
             .find(filter)
@@ -96,8 +99,9 @@ let BlogsQueryRepository = class BlogsQueryRepository {
     }
 };
 BlogsQueryRepository = __decorate([
-    __param(1, (0, mongoose_1.InjectModel)(blogs_schema_1.Blog.name)),
+    __param(2, (0, mongoose_1.InjectModel)(blogs_schema_1.Blog.name)),
     __metadata("design:paramtypes", [bans_repository_1.BansRepository,
+        bans_blogs_repository_1.BlogBansRepository,
         mongoose_2.Model])
 ], BlogsQueryRepository);
 exports.BlogsQueryRepository = BlogsQueryRepository;

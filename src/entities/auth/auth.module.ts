@@ -15,7 +15,7 @@ import { AuthController } from './auth.controller';
 import { AttemptsModule } from '../attempts/attempts.module';
 import { TokensModule } from '../tokens/token.module';
 import { BansRepository } from '../bans/bans.repository';
-import { Ban, BanSchema } from '../bans/bans.schema';
+import { Ban, BanSchema } from '../bans/application/domain/bans.schema';
 
 @Module({
   imports: [

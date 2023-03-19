@@ -1,5 +1,5 @@
 import { BlogsRepository } from './blogs.repository';
-import { BlogDocument, createBlogModel, updateBlogModel } from './blogs.schema';
+import { BlogDocument, createBlogModel, updateBlogModel } from './domain/blogs.schema';
 import { Model } from 'mongoose';
 import { UsersRepository } from '../users/users.repository';
 import { blogViewModel } from './blogs.models';

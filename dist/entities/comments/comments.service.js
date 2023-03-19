@@ -44,9 +44,11 @@ const comments_repository_1 = require("./comments.repository");
 const users_repository_1 = require("../users/users.repository");
 const comments_like_schema_1 = require("../likes/comments.like.schema");
 const comments_likes_repository_1 = require("../likes/comments.likes.repository");
+const posts_repository_1 = require("../posts/posts.repository");
 let CommentsService = class CommentsService {
-    constructor(commentsRepository, usersRepository, commentsLikesRepository, commentModel, commentLikeModel) {
+    constructor(commentsRepository, postsRepository, usersRepository, commentsLikesRepository, commentModel, commentLikeModel) {
         this.commentsRepository = commentsRepository;
+        this.postsRepository = postsRepository;
         this.usersRepository = usersRepository;
         this.commentsLikesRepository = commentsLikesRepository;
         this.commentModel = commentModel;
@@ -55,6 +57,7 @@ let CommentsService = class CommentsService {
     }
     async createComment(postId, inputModel, userId) {
         const userInstance = await this.usersRepository.findUserById(userId);
+        const postInstance = await this.postsRepository.findPostInstance(postId);
         const commentDTO = {
             _id: new mongoose_2.default.Types.ObjectId(),
             content: inputModel.content,
@@ -63,8 +66,12 @@ let CommentsService = class CommentsService {
                 userLogin: userInstance.accountData.login,
             },
             createdAt: new Date().toISOString(),
-            likingUsers: [],
-            postId: postId,
+            postInfo: {
+                id: postId,
+                title: postInstance.title,
+                blogId: postInstance.blogId,
+                blogName: postInstance.blogName,
+            },
             likesInfo: {
                 likesCount: 0,
                 dislikesCount: 0,
@@ -141,9 +148,10 @@ let CommentsService = class CommentsService {
 };
 CommentsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(3, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
-    __param(4, (0, mongoose_1.InjectModel)(comments_like_schema_1.CommentLike.name)),
+    __param(4, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
+    __param(5, (0, mongoose_1.InjectModel)(comments_like_schema_1.CommentLike.name)),
     __metadata("design:paramtypes", [comments_repository_1.CommentsRepository,
+        posts_repository_1.PostsRepository,
         users_repository_1.UsersRepository,
         comments_likes_repository_1.CommentsLikesRepository,
         mongoose_2.Model,

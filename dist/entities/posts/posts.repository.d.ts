@@ -8,6 +8,6 @@ export declare class PostsRepository {
     }>, never> & Required<{
         _id: mongoose.Schema.Types.ObjectId;
     }>>;
-    findBannedPosts(bannedBlogs: string[]): Promise<string[]>;
+    findPostsForUser(bannedBlogs: string[]): Promise<string[]>;
     save(instance: any): Promise<void>;
 }

@@ -1,21 +1,26 @@
 import { PostsRepository } from './posts.repository';
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import {
   createPostModel,
-  LikeModel,
   Post,
   PostDocument,
   PostViewModel,
   updatePostModel,
 } from './posts.schema';
-import { CommentViewModel, CreateCommentModel, LikingUsers } from '../comments/comments.schema';
 import { CommentsService } from '../comments/comments.service';
 import { UsersRepository } from '../users/users.repository';
 import { BlogsRepository } from '../blogs/blogs.repository';
 import { PostLike, PostLikeDocument } from '../likes/posts.like.schema';
 import { PostsLikesRepository } from '../likes/posts.likes.repository';
+import { UsersBansForBlogRepository } from '../bans/bans.users-for-blog.repository';
+import { CommentViewModel, CreateCommentModel } from '../comments/comments.models';
 
 @Injectable()
 export class PostsService {
@@ -25,6 +30,7 @@ export class PostsService {
     protected commentsService: CommentsService,
     protected usersRepository: UsersRepository,
     protected postsLikesRepository: PostsLikesRepository,
+    protected usersBansForBlogsRepo: UsersBansForBlogRepository,
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
     @InjectModel(PostLike.name) private postLikeModel: Model<PostLikeDocument>,
   ) {}
@@ -102,6 +108,8 @@ export class PostsService {
   ): Promise<CommentViewModel | null> {
     const postInstance = await this.postsRepository.findPostInstance(postId);
     if (!postInstance) return null;
+    const forbiddenPosts = await this.usersBansForBlogsRepo.getBannedPostsForUser(userId);
+    if (forbiddenPosts.includes(postInstance._id.toString())) throw new UnauthorizedException();
     return await this.commentsService.createComment(postId, inputModel, userId);
   }
 

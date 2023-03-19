@@ -3,9 +3,8 @@ import { newestLikes, Post, PostDocument, PostViewModel } from './posts.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { BansRepository } from '../bans/bans.repository';
-import { CommentsLikesRepository } from '../likes/comments.likes.repository';
 import { PostsLikesRepository } from '../likes/posts.likes.repository';
-import { CommentDocument } from '../comments/comments.schema';
+import { BlogBansRepository } from '../bans/bans.blogs.repository';
 
 function mapperToPostViewModel(post: PostDocument): PostViewModel {
   return {
@@ -29,6 +28,7 @@ export class PostsQueryRepository {
   constructor(
     protected bansRepository: BansRepository,
     protected postsLikesRepository: PostsLikesRepository,
+    protected blogBansRepository: BlogBansRepository,
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
   ) {}
   async getAllPosts(
@@ -40,9 +40,11 @@ export class PostsQueryRepository {
 
     const sortDirectionNumber: 1 | -1 = sortDirection === 'desc' ? -1 : 1;
     const skippedPostsNumber = (+pageNumber - 1) * +pageSize;
-    const bannedPosts = await this.bansRepository.getBannedPosts();
+    const bannedPostsFromUsers = await this.bansRepository.getBannedPosts();
+    const bannedPosts = await this.blogBansRepository.getBannedPosts();
+    const allBannedPosts = bannedPosts.concat(bannedPostsFromUsers);
 
-    const filter = { _id: { $nin: bannedPosts } } as {
+    const filter = { _id: { $nin: allBannedPosts } } as {
       _id: { $nin: mongoose.Types.ObjectId[] };
       blogId?: { $regex: string };
     };
@@ -113,8 +115,10 @@ export class PostsQueryRepository {
 
   async findPostById(postId: string, userId?: string | null): Promise<PostViewModel | null> {
     const _id = new mongoose.Types.ObjectId(postId);
-    const bannedPosts = await this.bansRepository.getBannedPosts();
-    const bannedPostsStrings = bannedPosts.map((postId) => postId.toString());
+    const bannedPostsFromUsers = await this.bansRepository.getBannedPosts();
+    const bannedPosts = await this.blogBansRepository.getBannedPosts();
+    const allBannedPosts = bannedPosts.concat(bannedPostsFromUsers);
+    const bannedPostsStrings = allBannedPosts.map((postId) => postId.toString());
     const foundPost: PostDocument | null = await this.postModel.findOne({
       _id: _id,
     });

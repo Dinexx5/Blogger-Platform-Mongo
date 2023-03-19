@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog, BlogDocument } from './blogs.schema';
+import { Blog, BlogDocument } from './domain/blogs.schema';
 
 @Injectable()
 export class BlogsRepository {
@@ -13,7 +13,7 @@ export class BlogsRepository {
     return blogInstance;
   }
 
-  async findBannedBlogs(userId: string) {
+  async findBlogsForUser(userId: string) {
     const blogsInstances = await this.blogModel.find({ 'blogOwnerInfo.userId': userId }).lean();
     const blogs = blogsInstances.map((blog) => blog._id.toString());
     return blogs;

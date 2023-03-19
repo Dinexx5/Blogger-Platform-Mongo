@@ -76,7 +76,6 @@ let CommentsQueryRepository = class CommentsQueryRepository {
             .skip(skippedCommentsNumber)
             .limit(+pageSize);
         await this.countLikesForComments(commentsDb, userId);
-        console.log(commentsDb);
         const commentsView = commentsDb.map(mapperToCommentViewModel);
         return {
             pagesCount: Math.ceil(countAll / +pageSize),

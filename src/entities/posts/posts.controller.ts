@@ -4,11 +4,11 @@ import { Response } from 'express';
 import { PostViewModel } from './posts.schema';
 import { PostsService } from './posts.service';
 import { PostsQueryRepository } from './posts.query-repo';
-import { CommentViewModel, CreateCommentModel, LikeInputModel } from '../comments/comments.schema';
 import { CommentsQueryRepository } from '../comments/comments.query-repo';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { GetUserGuard } from '../auth/guards/getuser.guard';
+import { CommentViewModel, CreateCommentModel, LikeInputModel } from '../comments/comments.models';
 
 @Controller('posts')
 export class PostsController {

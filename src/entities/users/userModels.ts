@@ -73,6 +73,18 @@ export class BanModel {
   @Length(20, 300)
   banReason: string;
 }
+export class BanUserModelForBlog {
+  @IsString()
+  @IsNotEmpty()
+  blogId: string;
+  @IsBoolean()
+  @IsNotEmpty()
+  isBanned: boolean;
+  @IsString()
+  @IsNotEmpty()
+  @Length(20, 300)
+  banReason: string;
+}
 
 export class UserParamModel {
   @IsString()
@@ -96,6 +108,14 @@ export class SaUserViewModel {
     public login: string,
     public email: string,
     public createdAt: string,
+    public banInfo: { isBanned: boolean; banDate: string; banReason: string },
+  ) {}
+}
+
+export class BannedForBlogUserViewModel {
+  constructor(
+    public id: string,
+    public login: string,
     public banInfo: { isBanned: boolean; banDate: string; banReason: string },
   ) {}
 }

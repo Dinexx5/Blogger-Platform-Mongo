@@ -49,7 +49,7 @@ let PostsRepository = class PostsRepository {
         const postInstance = await this.postModel.findOne({ _id: _id });
         return postInstance;
     }
-    async findBannedPosts(bannedBlogs) {
+    async findPostsForUser(bannedBlogs) {
         const postInstances = await this.postModel.find({ blogId: { $in: bannedBlogs } }).lean();
         const posts = postInstances.map((post) => post._id.toString());
         return posts;

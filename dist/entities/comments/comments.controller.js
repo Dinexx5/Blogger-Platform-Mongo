@@ -15,11 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentsController = void 0;
 const common_1 = require("@nestjs/common");
 const comments_query_repo_1 = require("./comments.query-repo");
-const comments_schema_1 = require("./comments.schema");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const comments_service_1 = require("./comments.service");
 const current_user_decorator_1 = require("../../shared/decorators/current-user.decorator");
 const getuser_guard_1 = require("../auth/guards/getuser.guard");
+const comments_models_1 = require("./comments.models");
 let CommentsController = class CommentsController {
     constructor(commentsQueryRepository, commentsService) {
         this.commentsQueryRepository = commentsQueryRepository;
@@ -64,7 +64,7 @@ __decorate([
     __param(2, (0, common_1.Body)()),
     __param(3, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, comments_schema_1.CreateCommentModel, Object]),
+    __metadata("design:paramtypes", [Object, String, comments_models_1.CreateCommentModel, Object]),
     __metadata("design:returntype", Promise)
 ], CommentsController.prototype, "updateComment", null);
 __decorate([
@@ -85,7 +85,7 @@ __decorate([
     __param(2, (0, common_1.Body)()),
     __param(3, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, comments_schema_1.LikeInputModel, Object]),
+    __metadata("design:paramtypes", [Object, String, comments_models_1.LikeInputModel, Object]),
     __metadata("design:returntype", Promise)
 ], CommentsController.prototype, "likeComment", null);
 CommentsController = __decorate([

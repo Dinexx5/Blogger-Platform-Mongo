@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { CommentsQueryRepository } from './comments.query-repo';
-import { CreateCommentModel, LikeInputModel } from './comments.schema';
 import { CommentsService } from './comments.service';
+import { CreateCommentModel, LikeInputModel } from './comments.models';
 export declare class CommentsController {
     protected commentsQueryRepository: CommentsQueryRepository;
     protected commentsService: CommentsService;

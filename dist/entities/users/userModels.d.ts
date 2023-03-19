@@ -24,6 +24,11 @@ export declare class BanModel {
     isBanned: boolean;
     banReason: string;
 }
+export declare class BanUserModelForBlog {
+    blogId: string;
+    isBanned: boolean;
+    banReason: string;
+}
 export declare class UserParamModel {
     userId: string;
 }
@@ -45,6 +50,20 @@ export declare class SaUserViewModel {
         banReason: string;
     };
     constructor(id: string, login: string, email: string, createdAt: string, banInfo: {
+        isBanned: boolean;
+        banDate: string;
+        banReason: string;
+    });
+}
+export declare class BannedForBlogUserViewModel {
+    id: string;
+    login: string;
+    banInfo: {
+        isBanned: boolean;
+        banDate: string;
+        banReason: string;
+    };
+    constructor(id: string, login: string, banInfo: {
         isBanned: boolean;
         banDate: string;
         banReason: string;

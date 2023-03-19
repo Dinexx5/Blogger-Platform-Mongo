@@ -24,7 +24,7 @@ const auth_controller_1 = require("./auth.controller");
 const attempts_module_1 = require("../attempts/attempts.module");
 const token_module_1 = require("../tokens/token.module");
 const bans_repository_1 = require("../bans/bans.repository");
-const bans_schema_1 = require("../bans/bans.schema");
+const bans_schema_1 = require("../bans/application/domain/bans.schema");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([

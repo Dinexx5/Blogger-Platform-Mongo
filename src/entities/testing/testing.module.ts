@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TestingController } from './testing.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Blog, BlogSchema } from '../blogs/blogs.schema';
+import { Blog, BlogSchema } from '../blogs/domain/blogs.schema';
 import { Post, PostSchema } from '../posts/posts.schema';
 import { Comment, CommentSchema } from '../comments/comments.schema';
 import { User, UserSchema } from '../users/users.schema';
 import { Attempt, AttemptSchema } from '../attempts/attempts.schema';
 import { Token, TokenSchema } from '../tokens/token.schema';
 import { Device, DeviceSchema } from '../devices/devices.schema';
-import { Ban, BanSchema } from '../bans/bans.schema';
+import { Ban, BanSchema } from '../bans/application/domain/bans.schema';
 import { CommentLike, CommentLikeSchema } from '../likes/comments.like.schema';
 import { PostLike, PostLikeSchema } from '../likes/posts.like.schema';
 

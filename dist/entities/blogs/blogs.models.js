@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blogSAViewModel = exports.blogViewModel = exports.blogAndUserParamModel = exports.blogAndPostParamModel = exports.blogParamModel = void 0;
+exports.blogSAViewModel = exports.blogViewModel = exports.blogAndUserParamModel = exports.blogAndPostParamModel = exports.BanBlogModel = exports.blogParamModel = void 0;
 const class_validator_1 = require("class-validator");
 const blog_exists_decorator_1 = require("../../shared/decorators/validation/blog-exists.decorator");
 const user_exists_decorator_1 = require("../../shared/decorators/validation/user-exists.decorator");
@@ -21,6 +21,14 @@ __decorate([
     __metadata("design:type", String)
 ], blogParamModel.prototype, "blogId", void 0);
 exports.blogParamModel = blogParamModel;
+class BanBlogModel {
+}
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Boolean)
+], BanBlogModel.prototype, "isBanned", void 0);
+exports.BanBlogModel = BanBlogModel;
 class blogAndPostParamModel {
 }
 __decorate([
@@ -54,7 +62,7 @@ class blogViewModel {
 }
 exports.blogViewModel = blogViewModel;
 class blogSAViewModel {
-    constructor(id, name, description, isMembership, websiteUrl, createdAt, blogOwnerInfo) {
+    constructor(id, name, description, isMembership, websiteUrl, createdAt, blogOwnerInfo, banInfo) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,6 +70,7 @@ class blogSAViewModel {
         this.websiteUrl = websiteUrl;
         this.createdAt = createdAt;
         this.blogOwnerInfo = blogOwnerInfo;
+        this.banInfo = banInfo;
     }
 }
 exports.blogSAViewModel = blogSAViewModel;

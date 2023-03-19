@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { Blog, BlogDocument } from './blogs.schema';
+import { Blog, BlogDocument } from './domain/blogs.schema';
 export declare class BlogsRepository {
     private blogModel;
     constructor(blogModel: Model<BlogDocument>);
@@ -8,6 +8,6 @@ export declare class BlogsRepository {
     }>, never> & Required<{
         _id: mongoose.Schema.Types.ObjectId;
     }>>;
-    findBannedBlogs(userId: string): Promise<string[]>;
+    findBlogsForUser(userId: string): Promise<string[]>;
     save(instance: any): Promise<void>;
 }

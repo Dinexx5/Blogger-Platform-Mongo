@@ -1,8 +1,9 @@
 import { Model } from 'mongoose';
-import { CommentDocument, CommentViewModel } from './comments.schema';
+import { CommentDocument } from './comments.schema';
 import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
 import { BansRepository } from '../bans/bans.repository';
 import { CommentsLikesRepository } from '../likes/comments.likes.repository';
+import { CommentViewModel } from './comments.models';
 export declare class CommentsQueryRepository {
     protected bansRepository: BansRepository;
     protected commentsLikesRepository: CommentsLikesRepository;

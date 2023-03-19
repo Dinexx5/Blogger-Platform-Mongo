@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { CommentsQueryRepository } from './comments.query-repo';
-import { CommentViewModel, CreateCommentModel, LikeInputModel } from './comments.schema';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CommentsService } from './comments.service';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { GetUserGuard } from '../auth/guards/getuser.guard';
+import { CommentViewModel, CreateCommentModel, LikeInputModel } from './comments.models';
 
 @Controller('comments')
 export class CommentsController {

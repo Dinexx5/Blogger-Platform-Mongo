@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SaUserViewModel = exports.userViewModel = exports.UserParamModel = exports.BanModel = exports.authModel = exports.NewPasswordModel = exports.ConfirmEmailModel = exports.PasswordRecoveryModel = exports.ResendEmailModel = exports.CreateUserModel = void 0;
+exports.BannedForBlogUserViewModel = exports.SaUserViewModel = exports.userViewModel = exports.UserParamModel = exports.BanUserModelForBlog = exports.BanModel = exports.authModel = exports.NewPasswordModel = exports.ConfirmEmailModel = exports.PasswordRecoveryModel = exports.ResendEmailModel = exports.CreateUserModel = void 0;
 const class_validator_1 = require("class-validator");
 const login_exists_decorator_1 = require("../../shared/decorators/validation/login-exists.decorator");
 const email_exists_decorator_1 = require("../../shared/decorators/validation/email-exists.decorator");
@@ -109,6 +109,25 @@ __decorate([
     __metadata("design:type", String)
 ], BanModel.prototype, "banReason", void 0);
 exports.BanModel = BanModel;
+class BanUserModelForBlog {
+}
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], BanUserModelForBlog.prototype, "blogId", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Boolean)
+], BanUserModelForBlog.prototype, "isBanned", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.Length)(20, 300),
+    __metadata("design:type", String)
+], BanUserModelForBlog.prototype, "banReason", void 0);
+exports.BanUserModelForBlog = BanUserModelForBlog;
 class UserParamModel {
 }
 __decorate([
@@ -137,4 +156,12 @@ class SaUserViewModel {
     }
 }
 exports.SaUserViewModel = SaUserViewModel;
+class BannedForBlogUserViewModel {
+    constructor(id, login, banInfo) {
+        this.id = id;
+        this.login = login;
+        this.banInfo = banInfo;
+    }
+}
+exports.BannedForBlogUserViewModel = BannedForBlogUserViewModel;
 //# sourceMappingURL=userModels.js.map

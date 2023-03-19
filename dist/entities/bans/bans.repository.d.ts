@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { Ban, BanDocument } from './bans.schema';
+import { Ban, BanDocument } from './application/domain/bans.schema';
 export declare class BansRepository {
     private banModel;
     constructor(banModel: Model<BanDocument>);

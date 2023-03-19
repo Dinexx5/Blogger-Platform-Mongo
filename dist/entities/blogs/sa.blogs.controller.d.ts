@@ -1,12 +1,15 @@
 import { paginatedViewModel } from '../../shared/models/pagination';
 import { Response } from 'express';
-import { blogAndUserParamModel, blogSAViewModel } from './blogs.models';
+import { BanBlogModel, blogAndUserParamModel, blogParamModel, blogSAViewModel } from './blogs.models';
 import { SuperAdminBlogsService } from './sa.blogs.service';
 import { BlogsSAQueryRepository } from './sa.blog.query-repo';
+import { CommandBus } from '@nestjs/cqrs';
 export declare class SuperAdminBlogsController {
+    private commandBus;
     protected superAdminBlogsQueryRepository: BlogsSAQueryRepository;
     protected superAdminBlogService: SuperAdminBlogsService;
-    constructor(superAdminBlogsQueryRepository: BlogsSAQueryRepository, superAdminBlogService: SuperAdminBlogsService);
+    constructor(commandBus: CommandBus, superAdminBlogsQueryRepository: BlogsSAQueryRepository, superAdminBlogService: SuperAdminBlogsService);
     getBlogs(paginationQuery: any): Promise<paginatedViewModel<blogSAViewModel[]>>;
     updateBlog(params: blogAndUserParamModel, res: Response): Promise<Response<any, Record<string, any>>>;
+    banBlog(params: blogParamModel, inputModel: BanBlogModel, res: Response): Promise<Response<any, Record<string, any>>>;
 }

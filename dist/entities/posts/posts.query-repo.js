@@ -41,6 +41,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = __importStar(require("mongoose"));
 const bans_repository_1 = require("../bans/bans.repository");
 const posts_likes_repository_1 = require("../likes/posts.likes.repository");
+const bans_blogs_repository_1 = require("../bans/bans.blogs.repository");
 function mapperToPostViewModel(post) {
     return {
         id: post._id.toString(),
@@ -59,17 +60,20 @@ function mapperToPostViewModel(post) {
     };
 }
 let PostsQueryRepository = class PostsQueryRepository {
-    constructor(bansRepository, postsLikesRepository, postModel) {
+    constructor(bansRepository, postsLikesRepository, blogBansRepository, postModel) {
         this.bansRepository = bansRepository;
         this.postsLikesRepository = postsLikesRepository;
+        this.blogBansRepository = blogBansRepository;
         this.postModel = postModel;
     }
     async getAllPosts(query, blogId, userId) {
         const { sortDirection = 'desc', sortBy = 'createdAt', pageNumber = 1, pageSize = 10 } = query;
         const sortDirectionNumber = sortDirection === 'desc' ? -1 : 1;
         const skippedPostsNumber = (+pageNumber - 1) * +pageSize;
-        const bannedPosts = await this.bansRepository.getBannedPosts();
-        const filter = { _id: { $nin: bannedPosts } };
+        const bannedPostsFromUsers = await this.bansRepository.getBannedPosts();
+        const bannedPosts = await this.blogBansRepository.getBannedPosts();
+        const allBannedPosts = bannedPosts.concat(bannedPostsFromUsers);
+        const filter = { _id: { $nin: allBannedPosts } };
         if (blogId) {
             filter.blogId = { $regex: blogId };
         }
@@ -129,8 +133,10 @@ let PostsQueryRepository = class PostsQueryRepository {
     }
     async findPostById(postId, userId) {
         const _id = new mongoose_2.default.Types.ObjectId(postId);
-        const bannedPosts = await this.bansRepository.getBannedPosts();
-        const bannedPostsStrings = bannedPosts.map((postId) => postId.toString());
+        const bannedPostsFromUsers = await this.bansRepository.getBannedPosts();
+        const bannedPosts = await this.blogBansRepository.getBannedPosts();
+        const allBannedPosts = bannedPosts.concat(bannedPostsFromUsers);
+        const bannedPostsStrings = allBannedPosts.map((postId) => postId.toString());
         const foundPost = await this.postModel.findOne({
             _id: _id,
         });
@@ -145,9 +151,10 @@ let PostsQueryRepository = class PostsQueryRepository {
     }
 };
 PostsQueryRepository = __decorate([
-    __param(2, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
+    __param(3, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
     __metadata("design:paramtypes", [bans_repository_1.BansRepository,
         posts_likes_repository_1.PostsLikesRepository,
+        bans_blogs_repository_1.BlogBansRepository,
         mongoose_2.Model])
 ], PostsQueryRepository);
 exports.PostsQueryRepository = PostsQueryRepository;

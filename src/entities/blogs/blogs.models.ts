@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString, Length } from 'class-validator';
 import { IsBlogExists } from '../../shared/decorators/validation/blog-exists.decorator';
 import { IsUserExists } from '../../shared/decorators/validation/user-exists.decorator';
 
@@ -7,6 +7,12 @@ export class blogParamModel {
   @IsNotEmpty()
   // @IsBlogExists()
   blogId: string;
+}
+
+export class BanBlogModel {
+  @IsBoolean()
+  @IsNotEmpty()
+  isBanned: boolean;
 }
 
 export class blogAndPostParamModel {
@@ -46,5 +52,6 @@ export class blogSAViewModel {
     public websiteUrl: string,
     public createdAt: string,
     public blogOwnerInfo: object,
+    public banInfo: object,
   ) {}
 }

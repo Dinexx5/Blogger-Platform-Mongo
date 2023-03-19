@@ -1,11 +1,12 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog, BlogDocument } from './blogs.schema';
+import { Blog, BlogDocument } from './domain/blogs.schema';
 import mongoose, { Model } from 'mongoose';
 import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
 import { blogViewModel } from './blogs.models';
 import { BlogsSAQueryRepository } from './sa.blog.query-repo';
-import { BansService } from '../bans/bans.service';
+import { BansUserUseCase } from '../bans/application/use-cases/ban.user.use.case.';
 import { BansRepository } from '../bans/bans.repository';
+import { BlogBansRepository } from '../bans/bans.blogs.repository';
 
 function mapFoundBlogToBlogViewModel(blog: BlogDocument): blogViewModel {
   return {
@@ -21,6 +22,7 @@ function mapFoundBlogToBlogViewModel(blog: BlogDocument): blogViewModel {
 export class BlogsQueryRepository {
   constructor(
     protected bansRepository: BansRepository,
+    protected blogBansRepository: BlogBansRepository,
     @InjectModel(Blog.name) private blogModel: Model<BlogDocument>,
   ) {}
 
@@ -37,9 +39,11 @@ export class BlogsQueryRepository {
     } = query;
     const sortDirectionInt: 1 | -1 = sortDirection === 'desc' ? -1 : 1;
     const skippedBlogsCount = (+pageNumber - 1) * +pageSize;
-    const bannedBlogs = await this.bansRepository.getBannedBlogs();
+    const bannedBlogsFromUsers = await this.bansRepository.getBannedBlogs();
+    const bannedBlogs = await this.blogBansRepository.getBannedBlogs();
+    const allBannedBlogs = bannedBlogs.concat(bannedBlogsFromUsers);
 
-    const filter = { _id: { $nin: bannedBlogs } } as {
+    const filter = { _id: { $nin: allBannedBlogs } } as {
       _id: { $nin: mongoose.Types.ObjectId[] };
       name?: { $regex: string; $options: string };
       'blogOwnerInfo.userId'?: string;
@@ -50,7 +54,6 @@ export class BlogsQueryRepository {
     if (userId) {
       filter['blogOwnerInfo.userId'] = userId;
     }
-    console.log(filter);
 
     const countAll = await this.blogModel.countDocuments(filter);
     const blogsDb = await this.blogModel

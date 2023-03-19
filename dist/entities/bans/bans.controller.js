@@ -14,15 +14,16 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BansController = void 0;
 const common_1 = require("@nestjs/common");
-const bans_service_1 = require("./bans.service");
+const ban_user_use_case_1 = require("./application/use-cases/ban.user.use.case.");
 const auth_guard_1 = require("../auth/guards/auth.guard");
 const userModels_1 = require("../users/userModels");
+const cqrs_1 = require("@nestjs/cqrs");
 let BansController = class BansController {
-    constructor(bansService) {
-        this.bansService = bansService;
+    constructor(commandBus) {
+        this.commandBus = commandBus;
     }
     async banUser(param, inputModel, res) {
-        await this.bansService.banUser(param.userId, inputModel);
+        await this.commandBus.execute(new ban_user_use_case_1.BansUserCommand(param.userId, inputModel));
         return res.sendStatus(204);
     }
 };
@@ -39,7 +40,7 @@ __decorate([
 ], BansController.prototype, "banUser", null);
 BansController = __decorate([
     (0, common_1.Controller)('sa/users'),
-    __metadata("design:paramtypes", [bans_service_1.BansService])
+    __metadata("design:paramtypes", [cqrs_1.CommandBus])
 ], BansController);
 exports.BansController = BansController;
 //# sourceMappingURL=bans.controller.js.map

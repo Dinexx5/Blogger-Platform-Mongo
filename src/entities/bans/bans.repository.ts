@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Ban, BanDocument } from './bans.schema';
+import { Ban, BanDocument } from './application/domain/bans.schema';
 
 @Injectable()
 export class BansRepository {

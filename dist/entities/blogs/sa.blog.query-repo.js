@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlogsSAQueryRepository = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const blogs_schema_1 = require("./blogs.schema");
+const blogs_schema_1 = require("./domain/blogs.schema");
 const mongoose_2 = require("mongoose");
 function mapFoundBlogToBlogViewModel(blog) {
     return {
@@ -27,6 +27,10 @@ function mapFoundBlogToBlogViewModel(blog) {
         blogOwnerInfo: {
             userId: blog.blogOwnerInfo.userId,
             userLogin: blog.blogOwnerInfo.userLogin,
+        },
+        banInfo: {
+            isBanned: blog.banInfo.isBanned,
+            banDate: blog.banInfo.banDate,
         },
     };
 }

@@ -1,4 +1,4 @@
-import { BlogDocument } from './blogs.schema';
+import { BlogDocument } from './domain/blogs.schema';
 import { Model } from 'mongoose';
 import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
 import { blogSAViewModel } from './blogs.models';

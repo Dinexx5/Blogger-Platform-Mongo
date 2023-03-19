@@ -1,6 +1,6 @@
 import { Controller, Delete, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog, BlogDocument } from '../blogs/blogs.schema';
+import { Blog, BlogDocument } from '../blogs/domain/blogs.schema';
 import { Response } from 'express';
 import { Model } from 'mongoose';
 import { Post, PostDocument } from '../posts/posts.schema';
@@ -9,7 +9,7 @@ import { Comment, CommentDocument } from '../comments/comments.schema';
 import { Attempt, AttemptDocument } from '../attempts/attempts.schema';
 import { Token, TokenDocument } from '../tokens/token.schema';
 import { Device, DeviceDocument } from '../devices/devices.schema';
-import { Ban, BanDocument } from '../bans/bans.schema';
+import { Ban, BanDocument } from '../bans/application/domain/bans.schema';
 import { PostLike, PostLikeDocument } from '../likes/posts.like.schema';
 import { CommentLike, CommentLikeDocument } from '../likes/comments.like.schema';
 

@@ -1,7 +1,7 @@
 import { BlogsRepository } from './blogs.repository';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog, BlogDocument, createBlogModel, updateBlogModel } from './blogs.schema';
+import { Blog, BlogDocument, createBlogModel, updateBlogModel } from './domain/blogs.schema';
 import mongoose, { Model } from 'mongoose';
 import { UsersRepository } from '../users/users.repository';
 import { blogViewModel } from './blogs.models';
@@ -24,6 +24,7 @@ export class BlogsService {
       websiteUrl: inputModel.websiteUrl,
       createdAt: new Date().toISOString(),
       blogOwnerInfo: { userId: userId, userLogin: userInstance.accountData.login },
+      banInfo: { isBanned: false, banDate: null },
     };
     const blogInstance = new this.blogModel(blogDTO);
     await this.blogsRepository.save(blogInstance);

@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog, BlogDocument } from './blogs.schema';
+import { Blog, BlogDocument } from './domain/blogs.schema';
 import { Model } from 'mongoose';
 import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
 import { blogSAViewModel } from './blogs.models';
@@ -15,6 +15,10 @@ function mapFoundBlogToBlogViewModel(blog: BlogDocument): blogSAViewModel {
     blogOwnerInfo: {
       userId: blog.blogOwnerInfo.userId,
       userLogin: blog.blogOwnerInfo.userLogin,
+    },
+    banInfo: {
+      isBanned: blog.banInfo.isBanned,
+      banDate: blog.banInfo.banDate,
     },
   };
 }

@@ -46,13 +46,15 @@ const users_repository_1 = require("../users/users.repository");
 const blogs_repository_1 = require("../blogs/blogs.repository");
 const posts_like_schema_1 = require("../likes/posts.like.schema");
 const posts_likes_repository_1 = require("../likes/posts.likes.repository");
+const bans_users_for_blog_repository_1 = require("../bans/bans.users-for-blog.repository");
 let PostsService = class PostsService {
-    constructor(postsRepository, blogsRepository, commentsService, usersRepository, postsLikesRepository, postModel, postLikeModel) {
+    constructor(postsRepository, blogsRepository, commentsService, usersRepository, postsLikesRepository, usersBansForBlogsRepo, postModel, postLikeModel) {
         this.postsRepository = postsRepository;
         this.blogsRepository = blogsRepository;
         this.commentsService = commentsService;
         this.usersRepository = usersRepository;
         this.postsLikesRepository = postsLikesRepository;
+        this.usersBansForBlogsRepo = usersBansForBlogsRepo;
         this.postModel = postModel;
         this.postLikeModel = postLikeModel;
     }
@@ -127,6 +129,9 @@ let PostsService = class PostsService {
         const postInstance = await this.postsRepository.findPostInstance(postId);
         if (!postInstance)
             return null;
+        const forbiddenPosts = await this.usersBansForBlogsRepo.getBannedPostsForUser(userId);
+        if (forbiddenPosts.includes(postInstance._id.toString()))
+            throw new common_1.UnauthorizedException();
         return await this.commentsService.createComment(postId, inputModel, userId);
     }
     async likePost(postId, likeStatus, userId) {
@@ -155,13 +160,14 @@ let PostsService = class PostsService {
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(5, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
-    __param(6, (0, mongoose_1.InjectModel)(posts_like_schema_1.PostLike.name)),
+    __param(6, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
+    __param(7, (0, mongoose_1.InjectModel)(posts_like_schema_1.PostLike.name)),
     __metadata("design:paramtypes", [posts_repository_1.PostsRepository,
         blogs_repository_1.BlogsRepository,
         comments_service_1.CommentsService,
         users_repository_1.UsersRepository,
         posts_likes_repository_1.PostsLikesRepository,
+        bans_users_for_blog_repository_1.UsersBansForBlogRepository,
         mongoose_2.Model,
         mongoose_2.Model])
 ], PostsService);

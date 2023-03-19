@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
-import { createBlogModel, updateBlogModel } from './blogs.schema';
+import { createBlogModel, updateBlogModel } from './domain/blogs.schema';
 import { Response } from 'express';
 import { createPostModel, updatePostModel } from '../posts/posts.schema';
 import { PostsService } from '../posts/posts.service';
@@ -20,6 +20,8 @@ import { blogAndPostParamModel, blogParamModel, blogViewModel } from './blogs.mo
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { paginatedViewModel } from '../../shared/models/pagination';
 import { BlogsQueryRepository } from './blogs.query-repo';
+import { BloggerCommentsQueryRepository } from './domain/blogger.comments.query-repo';
+import { commentsForBloggerViewModel } from '../comments/comments.models';
 
 @Controller('blogger/blogs')
 export class BloggerController {
@@ -27,6 +29,7 @@ export class BloggerController {
     protected blogsService: BlogsService,
     protected postsService: PostsService,
     protected blogsQueryRepo: BlogsQueryRepository,
+    protected bloggerCommentsQueryRepo: BloggerCommentsQueryRepository,
   ) {}
   @UseGuards(JwtAccessAuthGuard)
   @Get()
@@ -34,6 +37,13 @@ export class BloggerController {
     const returnedBlogs: paginatedViewModel<blogViewModel[]> =
       await this.blogsQueryRepo.getAllBlogs(paginationQuery, userId);
     return returnedBlogs;
+  }
+  @UseGuards(JwtAccessAuthGuard)
+  @Get('/comments')
+  async getComments(@Query() paginationQuery, @CurrentUser() userId) {
+    const returnedComments: paginatedViewModel<commentsForBloggerViewModel[]> =
+      await this.bloggerCommentsQueryRepo.getAllComments(paginationQuery, userId);
+    return returnedComments;
   }
   @UseGuards(JwtAccessAuthGuard)
   @Post()

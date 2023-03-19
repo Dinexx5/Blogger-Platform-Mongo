@@ -12,21 +12,32 @@ import { PostsRepository } from '../posts/posts.repository';
 import { BlogsQueryRepository } from '../blogs/blogs.query-repo';
 import { IsLikeStatusCorrectDecorator } from '../../shared/decorators/validation/like-status.decorator';
 import { Post, PostSchema } from '../posts/posts.schema';
-import { Blog, BlogSchema } from '../blogs/blogs.schema';
+import { Blog, BlogSchema } from '../blogs/domain/blogs.schema';
 import { BlogsRepository } from '../blogs/blogs.repository';
-import { BansService } from '../bans/bans.service';
+import { BansUserUseCase } from '../bans/application/use-cases/ban.user.use.case.';
 import { BansRepository } from '../bans/bans.repository';
 import { DevicesModule } from '../devices/devices.module';
 import { TokensModule } from '../tokens/token.module';
-import { Ban, BanSchema } from '../bans/bans.schema';
+import {
+  Ban,
+  BanSchema,
+  BanUserForBlogSchema,
+  BlogBan,
+  BlogBanSchema,
+  UserForBlogBan,
+} from '../bans/application/domain/bans.schema';
 import { CommentsLikesRepository } from '../likes/comments.likes.repository';
 import { CommentLike, CommentLikeSchema } from '../likes/comments.like.schema';
 import { PostsLikesRepository } from '../likes/posts.likes.repository';
 import { PostLike, PostLikeSchema } from '../likes/posts.like.schema';
 import { User, UserSchema } from '../users/users.schema';
+import { BlogBansRepository } from '../bans/bans.blogs.repository';
+import { CqrsModule } from '@nestjs/cqrs';
+import { UsersBansForBlogRepository } from '../bans/bans.users-for-blog.repository';
 
 @Module({
   imports: [
+    CqrsModule,
     AuthModule,
     UsersModule,
     DevicesModule,
@@ -38,6 +49,8 @@ import { User, UserSchema } from '../users/users.schema';
     MongooseModule.forFeature([{ name: CommentLike.name, schema: CommentLikeSchema }]),
     MongooseModule.forFeature([{ name: PostLike.name, schema: PostLikeSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: BlogBan.name, schema: BlogBanSchema }]),
+    MongooseModule.forFeature([{ name: UserForBlogBan.name, schema: BanUserForBlogSchema }]),
   ],
   providers: [
     CommentsQueryRepository,
@@ -48,10 +61,12 @@ import { User, UserSchema } from '../users/users.schema';
     BlogsQueryRepository,
     BlogsRepository,
     IsLikeStatusCorrectDecorator,
-    BansService,
+    BansUserUseCase,
     BansRepository,
+    BlogBansRepository,
     CommentsLikesRepository,
     PostsLikesRepository,
+    UsersBansForBlogRepository,
   ],
   controllers: [CommentsController],
   exports: [

@@ -39,7 +39,7 @@ exports.BansRepository = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = __importStar(require("mongoose"));
-const bans_schema_1 = require("./bans.schema");
+const bans_schema_1 = require("./application/domain/bans.schema");
 let BansRepository = class BansRepository {
     constructor(banModel) {
         this.banModel = banModel;

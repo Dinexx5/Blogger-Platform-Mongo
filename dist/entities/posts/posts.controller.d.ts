@@ -3,8 +3,8 @@ import { Response } from 'express';
 import { PostViewModel } from './posts.schema';
 import { PostsService } from './posts.service';
 import { PostsQueryRepository } from './posts.query-repo';
-import { CreateCommentModel, LikeInputModel } from '../comments/comments.schema';
 import { CommentsQueryRepository } from '../comments/comments.query-repo';
+import { CreateCommentModel, LikeInputModel } from '../comments/comments.models';
 export declare class PostsController {
     protected postsService: PostsService;
     protected postsQueryRepository: PostsQueryRepository;
