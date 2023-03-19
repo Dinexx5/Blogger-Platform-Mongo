@@ -11,10 +11,14 @@ import {
   UserForBlogBanDocument,
 } from '../../../bans/application/domain/bans.schema';
 import { UsersBansForBlogRepository } from '../../../bans/bans.users-for-blog.repository';
-import { NotFoundException } from '@nestjs/common';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 
 export class BanUserForBlogCommand {
-  constructor(public userId: string, public inputModel: BanUserModelForBlog) {}
+  constructor(
+    public userId: string,
+    public inputModel: BanUserModelForBlog,
+    public ownerId: string,
+  ) {}
 }
 
 @CommandHandler(BanUserForBlogCommand)
@@ -28,10 +32,12 @@ export class BanUserForBlogUseCase implements ICommandHandler<BanUserForBlogComm
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
   async execute(command: BanUserForBlogCommand): Promise<boolean> {
+    const ownerId = command.ownerId;
     const userId = command.userId;
     const inputModel = command.inputModel;
     const blogInstance = await this.blogsRepository.findBlogInstance(inputModel.blogId);
     if (!blogInstance) throw new NotFoundException();
+    if (blogInstance.blogOwnerInfo.userId !== ownerId) throw new ForbiddenException();
     const userInstance = await this.usersRepository.findUserById(userId);
     const login = userInstance.accountData.login;
     if (inputModel.isBanned === true) {

@@ -40,6 +40,11 @@ export class commentsForBloggerViewModel {
       userLogin: string;
     },
     public createdAt: string,
+    public likesInfo: {
+      likesCount: number;
+      dislikesCount: number;
+      myStatus: string;
+    },
     public postInfo: {
       id: string;
       title: string;

@@ -6,7 +6,7 @@ import { PostsService } from '../posts/posts.service';
 import { blogAndPostParamModel, blogParamModel, blogViewModel } from './blogs.models';
 import { paginatedViewModel } from '../../shared/models/pagination';
 import { BlogsQueryRepository } from './blogs.query-repo';
-import { BloggerCommentsQueryRepository } from './domain/blogger.comments.query-repo';
+import { BloggerCommentsQueryRepository } from './blogger.comments.query-repo';
 import { commentsForBloggerViewModel } from '../comments/comments.models';
 export declare class BloggerController {
     protected blogsService: BlogsService;

@@ -1,10 +1,5 @@
 import { PostsRepository } from './posts.repository';
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import {
@@ -109,7 +104,7 @@ export class PostsService {
     const postInstance = await this.postsRepository.findPostInstance(postId);
     if (!postInstance) return null;
     const forbiddenPosts = await this.usersBansForBlogsRepo.getBannedPostsForUser(userId);
-    if (forbiddenPosts.includes(postInstance._id.toString())) throw new UnauthorizedException();
+    if (forbiddenPosts.includes(postInstance._id.toString())) throw new ForbiddenException();
     return await this.commentsService.createComment(postId, inputModel, userId);
   }
 

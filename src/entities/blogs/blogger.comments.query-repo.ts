@@ -1,10 +1,10 @@
-import { paginatedViewModel, paginationQuerys } from '../../../shared/models/pagination';
-import { BlogsRepository } from '../blogs.repository';
-import { PostsRepository } from '../../posts/posts.repository';
+import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
+import { BlogsRepository } from './blogs.repository';
+import { PostsRepository } from '../posts/posts.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { Comment, CommentDocument } from '../../comments/comments.schema';
+import { Comment, CommentDocument } from '../comments/comments.schema';
 import { Model } from 'mongoose';
-import { commentsForBloggerViewModel } from '../../comments/comments.models';
+import { commentsForBloggerViewModel } from '../comments/comments.models';
 
 function mapCommentsToViewModel(comment: CommentDocument): commentsForBloggerViewModel {
   return {
@@ -15,6 +15,11 @@ function mapCommentsToViewModel(comment: CommentDocument): commentsForBloggerVie
       userLogin: comment.commentatorInfo.userLogin,
     },
     createdAt: comment.createdAt,
+    likesInfo: {
+      likesCount: comment.likesInfo.likesCount,
+      dislikesCount: comment.likesInfo.dislikesCount,
+      myStatus: comment.likesInfo.myStatus,
+    },
     postInfo: {
       id: comment.postInfo.id,
       title: comment.postInfo.title,

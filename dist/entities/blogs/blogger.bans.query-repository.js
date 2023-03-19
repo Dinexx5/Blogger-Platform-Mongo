@@ -16,6 +16,8 @@ exports.BloggerBansQueryRepository = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const bans_schema_1 = require("../bans/application/domain/bans.schema");
+const common_1 = require("@nestjs/common");
+const blogs_repository_1 = require("./blogs.repository");
 function mapFoundBansToViewModel(ban) {
     return {
         id: ban.userId,
@@ -28,13 +30,17 @@ function mapFoundBansToViewModel(ban) {
     };
 }
 let BloggerBansQueryRepository = class BloggerBansQueryRepository {
-    constructor(banUserForBlogModel) {
+    constructor(blogsRepository, banUserForBlogModel) {
+        this.blogsRepository = blogsRepository;
         this.banUserForBlogModel = banUserForBlogModel;
     }
     async getAllUsers(query, blogId) {
         const { sortDirection = 'desc', sortBy = 'createdAt', pageNumber = 1, pageSize = 10, searchNameTerm = null, } = query;
         const sortDirectionInt = sortDirection === 'desc' ? -1 : 1;
         const skippedBlogsCount = (+pageNumber - 1) * +pageSize;
+        const blogInstance = await this.blogsRepository.findBlogInstance(blogId);
+        if (!blogInstance)
+            throw new common_1.NotFoundException();
         const filter = { blogId: blogId };
         if (searchNameTerm) {
             filter.name = { $regex: searchNameTerm, $options: 'i' };
@@ -57,8 +63,9 @@ let BloggerBansQueryRepository = class BloggerBansQueryRepository {
     }
 };
 BloggerBansQueryRepository = __decorate([
-    __param(0, (0, mongoose_1.InjectModel)(bans_schema_1.UserForBlogBan.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)(bans_schema_1.UserForBlogBan.name)),
+    __metadata("design:paramtypes", [blogs_repository_1.BlogsRepository,
+        mongoose_2.Model])
 ], BloggerBansQueryRepository);
 exports.BloggerBansQueryRepository = BloggerBansQueryRepository;
 //# sourceMappingURL=blogger.bans.query-repository.js.map

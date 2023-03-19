@@ -22,7 +22,7 @@ const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const blogs_models_1 = require("./blogs.models");
 const current_user_decorator_1 = require("../../shared/decorators/current-user.decorator");
 const blogs_query_repo_1 = require("./blogs.query-repo");
-const blogger_comments_query_repo_1 = require("./domain/blogger.comments.query-repo");
+const blogger_comments_query_repo_1 = require("./blogger.comments.query-repo");
 let BloggerController = class BloggerController {
     constructor(blogsService, postsService, blogsQueryRepo, bloggerCommentsQueryRepo) {
         this.blogsService = blogsService;

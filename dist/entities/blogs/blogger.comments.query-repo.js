@@ -13,10 +13,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BloggerCommentsQueryRepository = void 0;
-const blogs_repository_1 = require("../blogs.repository");
-const posts_repository_1 = require("../../posts/posts.repository");
+const blogs_repository_1 = require("./blogs.repository");
+const posts_repository_1 = require("../posts/posts.repository");
 const mongoose_1 = require("@nestjs/mongoose");
-const comments_schema_1 = require("../../comments/comments.schema");
+const comments_schema_1 = require("../comments/comments.schema");
 const mongoose_2 = require("mongoose");
 function mapCommentsToViewModel(comment) {
     return {
@@ -27,6 +27,11 @@ function mapCommentsToViewModel(comment) {
             userLogin: comment.commentatorInfo.userLogin,
         },
         createdAt: comment.createdAt,
+        likesInfo: {
+            likesCount: comment.likesInfo.likesCount,
+            dislikesCount: comment.likesInfo.dislikesCount,
+            myStatus: comment.likesInfo.myStatus,
+        },
         postInfo: {
             id: comment.postInfo.id,
             title: comment.postInfo.title,

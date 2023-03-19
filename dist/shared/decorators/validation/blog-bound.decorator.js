@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IsBlogExists = exports.IsBlogExistsDecorator = void 0;
+exports.IsBlogAttached = exports.IsBlogAttachedDecorator = void 0;
 const class_validator_1 = require("class-validator");
 const common_1 = require("@nestjs/common");
 const blogs_repository_1 = require("../../../entities/blogs/blogs.repository");
-let IsBlogExistsDecorator = class IsBlogExistsDecorator {
+let IsBlogAttachedDecorator = class IsBlogAttachedDecorator {
     constructor(blogsRepository) {
         this.blogsRepository = blogsRepository;
     }
@@ -27,22 +27,22 @@ let IsBlogExistsDecorator = class IsBlogExistsDecorator {
         return `Blog already bound or doesn't exist`;
     }
 };
-IsBlogExistsDecorator = __decorate([
+IsBlogAttachedDecorator = __decorate([
     (0, class_validator_1.ValidatorConstraint)({ name: 'IsBlogExists', async: true }),
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [blogs_repository_1.BlogsRepository])
-], IsBlogExistsDecorator);
-exports.IsBlogExistsDecorator = IsBlogExistsDecorator;
-function IsBlogExists(validationOptions) {
+], IsBlogAttachedDecorator);
+exports.IsBlogAttachedDecorator = IsBlogAttachedDecorator;
+function IsBlogAttached(validationOptions) {
     return function (object, propertyName) {
         (0, class_validator_1.registerDecorator)({
             name: 'IsBlogExists',
             target: object.constructor,
             propertyName: propertyName,
             options: validationOptions,
-            validator: IsBlogExistsDecorator,
+            validator: IsBlogAttachedDecorator,
         });
     };
 }
-exports.IsBlogExists = IsBlogExists;
-//# sourceMappingURL=blog-exists.decorator.js.map
+exports.IsBlogAttached = IsBlogAttached;
+//# sourceMappingURL=blog-bound.decorator.js.map

@@ -9,8 +9,9 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { BanUserForBlogCommand } from './application/use-cases/ban.user.for.blog.use-case';
 import { paginatedViewModel } from '../../shared/models/pagination';
-import { blogParamModel, blogSAViewModel } from './blogs.models';
+import { blogParamModel } from './blogs.models';
 import { BloggerBansQueryRepository } from './blogger.bans.query-repository';
+import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 
 @Controller('blogger/users')
 export class BloggerUsersController {
@@ -21,11 +22,12 @@ export class BloggerUsersController {
   @UseGuards(JwtAccessAuthGuard)
   @Put(':userId/ban')
   async banUser(
+    @CurrentUser() userId,
     @Param() param: UserParamModel,
     @Body() inputModel: BanUserModelForBlog,
     @Res() res: Response,
   ) {
-    await this.commandBus.execute(new BanUserForBlogCommand(param.userId, inputModel));
+    await this.commandBus.execute(new BanUserForBlogCommand(param.userId, inputModel, userId));
     return res.sendStatus(204);
   }
   @UseGuards(JwtAccessAuthGuard)

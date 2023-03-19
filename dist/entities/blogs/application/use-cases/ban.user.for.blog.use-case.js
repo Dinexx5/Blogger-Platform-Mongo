@@ -24,9 +24,10 @@ const bans_schema_1 = require("../../../bans/application/domain/bans.schema");
 const bans_users_for_blog_repository_1 = require("../../../bans/bans.users-for-blog.repository");
 const common_1 = require("@nestjs/common");
 class BanUserForBlogCommand {
-    constructor(userId, inputModel) {
+    constructor(userId, inputModel, ownerId) {
         this.userId = userId;
         this.inputModel = inputModel;
+        this.ownerId = ownerId;
     }
 }
 exports.BanUserForBlogCommand = BanUserForBlogCommand;
@@ -40,11 +41,14 @@ let BanUserForBlogUseCase = class BanUserForBlogUseCase {
         this.userModel = userModel;
     }
     async execute(command) {
+        const ownerId = command.ownerId;
         const userId = command.userId;
         const inputModel = command.inputModel;
         const blogInstance = await this.blogsRepository.findBlogInstance(inputModel.blogId);
         if (!blogInstance)
             throw new common_1.NotFoundException();
+        if (blogInstance.blogOwnerInfo.userId !== ownerId)
+            throw new common_1.ForbiddenException();
         const userInstance = await this.usersRepository.findUserById(userId);
         const login = userInstance.accountData.login;
         if (inputModel.isBanned === true) {

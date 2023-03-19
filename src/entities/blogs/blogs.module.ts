@@ -5,7 +5,7 @@ import { BloggerController } from './blogger.controller';
 import { BlogsService } from './blogs.service';
 import { BlogsRepository } from './blogs.repository';
 import { BlogsQueryRepository } from './blogs.query-repo';
-import { IsBlogExistsDecorator } from '../../shared/decorators/validation/blog-exists.decorator';
+import { IsBlogAttachedDecorator } from '../../shared/decorators/validation/blog-bound.decorator';
 import { AuthModule } from '../auth/auth.module';
 import { PostsModule } from '../posts/posts.module';
 import { BlogsController } from './blogs.controller';
@@ -35,7 +35,7 @@ import { BloggerUsersController } from './blogger.users.controller';
 import { UsersBansForBlogRepository } from '../bans/bans.users-for-blog.repository';
 import { BanUserForBlogUseCase } from './application/use-cases/ban.user.for.blog.use-case';
 import { BloggerBansQueryRepository } from './blogger.bans.query-repository';
-import { BloggerCommentsQueryRepository } from './domain/blogger.comments.query-repo';
+import { BloggerCommentsQueryRepository } from './blogger.comments.query-repo';
 import { Comment, CommentSchema } from '../comments/comments.schema';
 
 @Module({
@@ -58,7 +58,7 @@ import { Comment, CommentSchema } from '../comments/comments.schema';
     BlogsService,
     BlogsRepository,
     BlogsQueryRepository,
-    IsBlogExistsDecorator,
+    IsBlogAttachedDecorator,
     IsUserExistsDecorator,
     SuperAdminBlogsService,
     BlogsSAQueryRepository,

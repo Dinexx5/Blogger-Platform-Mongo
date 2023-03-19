@@ -10,7 +10,7 @@ import { BlogsRepository } from '../../../entities/blogs/blogs.repository';
 
 @ValidatorConstraint({ name: 'IsBlogExists', async: true })
 @Injectable()
-export class IsBlogExistsDecorator implements ValidatorConstraintInterface {
+export class IsBlogAttachedDecorator implements ValidatorConstraintInterface {
   constructor(private blogsRepository: BlogsRepository) {}
   async validate(blogId: string, args: ValidationArguments) {
     const blog = await this.blogsRepository.findBlogInstance(blogId);
@@ -22,14 +22,14 @@ export class IsBlogExistsDecorator implements ValidatorConstraintInterface {
   }
 }
 
-export function IsBlogExists(validationOptions?: ValidationOptions) {
+export function IsBlogAttached(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
       name: 'IsBlogExists',
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      validator: IsBlogExistsDecorator,
+      validator: IsBlogAttachedDecorator,
     });
   };
 }

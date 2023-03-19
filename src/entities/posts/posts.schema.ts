@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
-import { IsBlogExists } from '../../shared/decorators/validation/blog-exists.decorator';
+import { IsBlogAttached } from '../../shared/decorators/validation/blog-bound.decorator';
 import { Transform } from 'class-transformer';
 
 export type PostDocument = HydratedDocument<Post>;

@@ -20,7 +20,7 @@ import { blogAndPostParamModel, blogParamModel, blogViewModel } from './blogs.mo
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { paginatedViewModel } from '../../shared/models/pagination';
 import { BlogsQueryRepository } from './blogs.query-repo';
-import { BloggerCommentsQueryRepository } from './domain/blogger.comments.query-repo';
+import { BloggerCommentsQueryRepository } from './blogger.comments.query-repo';
 import { commentsForBloggerViewModel } from '../comments/comments.models';
 
 @Controller('blogger/blogs')

@@ -10,7 +10,8 @@ import { UsersBansForBlogRepository } from '../../../bans/bans.users-for-blog.re
 export declare class BanUserForBlogCommand {
     userId: string;
     inputModel: BanUserModelForBlog;
-    constructor(userId: string, inputModel: BanUserModelForBlog);
+    ownerId: string;
+    constructor(userId: string, inputModel: BanUserModelForBlog, ownerId: string);
 }
 export declare class BanUserForBlogUseCase implements ICommandHandler<BanUserForBlogCommand> {
     protected usersRepository: UsersRepository;

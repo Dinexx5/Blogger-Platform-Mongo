@@ -131,7 +131,7 @@ let PostsService = class PostsService {
             return null;
         const forbiddenPosts = await this.usersBansForBlogsRepo.getBannedPostsForUser(userId);
         if (forbiddenPosts.includes(postInstance._id.toString()))
-            throw new common_1.UnauthorizedException();
+            throw new common_1.ForbiddenException();
         return await this.commentsService.createComment(postId, inputModel, userId);
     }
     async likePost(postId, likeStatus, userId) {

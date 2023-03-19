@@ -1,5 +1,5 @@
 import { IsBoolean, IsNotEmpty, IsString, Length } from 'class-validator';
-import { IsBlogExists } from '../../shared/decorators/validation/blog-exists.decorator';
+import { IsBlogAttached } from '../../shared/decorators/validation/blog-bound.decorator';
 import { IsUserExists } from '../../shared/decorators/validation/user-exists.decorator';
 
 export class blogParamModel {
@@ -26,7 +26,7 @@ export class blogAndPostParamModel {
 export class blogAndUserParamModel {
   @IsString()
   @IsNotEmpty()
-  @IsBlogExists()
+  @IsBlogAttached()
   blogId: string;
   @IsUserExists()
   userId: string;

@@ -8,6 +8,6 @@ export declare class BloggerUsersController {
     private commandBus;
     protected bloggerQueryRepository: BloggerBansQueryRepository;
     constructor(commandBus: CommandBus, bloggerQueryRepository: BloggerBansQueryRepository);
-    banUser(param: UserParamModel, inputModel: BanUserModelForBlog, res: Response): Promise<Response<any, Record<string, any>>>;
+    banUser(userId: any, param: UserParamModel, inputModel: BanUserModelForBlog, res: Response): Promise<Response<any, Record<string, any>>>;
     getBannedUsers(paginationQuery: any, param: blogParamModel): Promise<paginatedViewModel<BannedForBlogUserViewModel[]>>;
 }

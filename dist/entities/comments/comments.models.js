@@ -41,11 +41,12 @@ class CommentViewModel {
 }
 exports.CommentViewModel = CommentViewModel;
 class commentsForBloggerViewModel {
-    constructor(id, content, commentatorInfo, createdAt, postInfo) {
+    constructor(id, content, commentatorInfo, createdAt, likesInfo, postInfo) {
         this.id = id;
         this.content = content;
         this.commentatorInfo = commentatorInfo;
         this.createdAt = createdAt;
+        this.likesInfo = likesInfo;
         this.postInfo = postInfo;
     }
 }

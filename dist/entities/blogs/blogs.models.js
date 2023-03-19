@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogSAViewModel = exports.blogViewModel = exports.blogAndUserParamModel = exports.blogAndPostParamModel = exports.BanBlogModel = exports.blogParamModel = void 0;
 const class_validator_1 = require("class-validator");
-const blog_exists_decorator_1 = require("../../shared/decorators/validation/blog-exists.decorator");
+const blog_bound_decorator_1 = require("../../shared/decorators/validation/blog-bound.decorator");
 const user_exists_decorator_1 = require("../../shared/decorators/validation/user-exists.decorator");
 class blogParamModel {
 }
@@ -42,7 +42,7 @@ class blogAndUserParamModel {
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, blog_exists_decorator_1.IsBlogExists)(),
+    (0, blog_bound_decorator_1.IsBlogAttached)(),
     __metadata("design:type", String)
 ], blogAndUserParamModel.prototype, "blogId", void 0);
 __decorate([

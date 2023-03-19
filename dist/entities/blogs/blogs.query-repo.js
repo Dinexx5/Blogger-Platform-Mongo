@@ -89,10 +89,17 @@ let BlogsQueryRepository = class BlogsQueryRepository {
     }
     async findBlogById(blogId) {
         const _id = new mongoose_2.default.Types.ObjectId(blogId);
+        const bannedBlogsFromUsers = await this.bansRepository.getBannedBlogs();
+        const bannedBlogs = await this.blogBansRepository.getBannedBlogs();
+        const allBannedBlogs = bannedBlogs.concat(bannedBlogsFromUsers);
+        const allBannedBlogsStrings = allBannedBlogs.map((blogId) => blogId.toString());
         const foundBlog = await this.blogModel.findOne({
             _id: _id,
         });
         if (!foundBlog) {
+            return null;
+        }
+        if (allBannedBlogsStrings.includes(foundBlog._id.toString())) {
             return null;
         }
         return mapFoundBlogToBlogViewModel(foundBlog);

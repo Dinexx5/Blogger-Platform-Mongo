@@ -14,7 +14,7 @@ const blogger_controller_1 = require("./blogger.controller");
 const blogs_service_1 = require("./blogs.service");
 const blogs_repository_1 = require("./blogs.repository");
 const blogs_query_repo_1 = require("./blogs.query-repo");
-const blog_exists_decorator_1 = require("../../shared/decorators/validation/blog-exists.decorator");
+const blog_bound_decorator_1 = require("../../shared/decorators/validation/blog-bound.decorator");
 const auth_module_1 = require("../auth/auth.module");
 const posts_module_1 = require("../posts/posts.module");
 const blogs_controller_1 = require("./blogs.controller");
@@ -37,7 +37,7 @@ const blogger_users_controller_1 = require("./blogger.users.controller");
 const bans_users_for_blog_repository_1 = require("../bans/bans.users-for-blog.repository");
 const ban_user_for_blog_use_case_1 = require("./application/use-cases/ban.user.for.blog.use-case");
 const blogger_bans_query_repository_1 = require("./blogger.bans.query-repository");
-const blogger_comments_query_repo_1 = require("./domain/blogger.comments.query-repo");
+const blogger_comments_query_repo_1 = require("./blogger.comments.query-repo");
 const comments_schema_1 = require("../comments/comments.schema");
 let BlogsModule = class BlogsModule {
 };
@@ -62,7 +62,7 @@ BlogsModule = __decorate([
             blogs_service_1.BlogsService,
             blogs_repository_1.BlogsRepository,
             blogs_query_repo_1.BlogsQueryRepository,
-            blog_exists_decorator_1.IsBlogExistsDecorator,
+            blog_bound_decorator_1.IsBlogAttachedDecorator,
             user_exists_decorator_1.IsUserExistsDecorator,
             sa_blogs_service_1.SuperAdminBlogsService,
             sa_blog_query_repo_1.BlogsSAQueryRepository,
