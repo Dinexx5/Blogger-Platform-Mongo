@@ -4,7 +4,7 @@ import { Response } from 'express';
 import {
   BannedForBlogUserViewModel,
   BanUserModelForBlog,
-  UserParamModel,
+  UserBanParamModel,
 } from '../users/userModels';
 import { CommandBus } from '@nestjs/cqrs';
 import { BanUserForBlogCommand } from './application/use-cases/ban.user.for.blog.use-case';
@@ -23,7 +23,7 @@ export class BloggerUsersController {
   @Put(':userId/ban')
   async banUser(
     @CurrentUser() userId,
-    @Param() param: UserParamModel,
+    @Param() param: UserBanParamModel,
     @Body() inputModel: BanUserModelForBlog,
     @Res() res: Response,
   ) {
@@ -32,9 +32,13 @@ export class BloggerUsersController {
   }
   @UseGuards(JwtAccessAuthGuard)
   @Get('/blog/:blogId')
-  async getBannedUsers(@Query() paginationQuery, @Param() param: blogParamModel) {
+  async getBannedUsers(
+    @CurrentUser() userId,
+    @Query() paginationQuery,
+    @Param() param: blogParamModel,
+  ) {
     const returnedUsers: paginatedViewModel<BannedForBlogUserViewModel[]> =
-      await this.bloggerQueryRepository.getAllUsers(paginationQuery, param.blogId);
+      await this.bloggerQueryRepository.getAllUsers(paginationQuery, param.blogId, userId);
     return returnedUsers;
   }
 }

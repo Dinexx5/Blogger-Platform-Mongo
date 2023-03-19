@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { paginatedViewModel, paginationQuerys } from '../../shared/models/pagination';
 import { UserForBlogBan, UserForBlogBanDocument } from '../bans/application/domain/bans.schema';
 import { BannedForBlogUserViewModel } from '../users/userModels';
-import { NotFoundException } from '@nestjs/common';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { BlogsRepository } from './blogs.repository';
 
 function mapFoundBansToViewModel(ban: UserForBlogBanDocument): BannedForBlogUserViewModel {
@@ -27,6 +27,7 @@ export class BloggerBansQueryRepository {
   async getAllUsers(
     query: paginationQuerys,
     blogId: string,
+    userId: string,
   ): Promise<paginatedViewModel<BannedForBlogUserViewModel[]>> {
     const {
       sortDirection = 'desc',
@@ -40,6 +41,7 @@ export class BloggerBansQueryRepository {
 
     const blogInstance = await this.blogsRepository.findBlogInstance(blogId);
     if (!blogInstance) throw new NotFoundException();
+    if (blogInstance.blogOwnerInfo.userId !== userId) throw new ForbiddenException();
 
     const filter = { blogId: blogId } as {
       blogId: string;

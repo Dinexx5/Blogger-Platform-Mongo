@@ -7,5 +7,5 @@ export declare class BloggerBansQueryRepository {
     protected blogsRepository: BlogsRepository;
     private banUserForBlogModel;
     constructor(blogsRepository: BlogsRepository, banUserForBlogModel: Model<UserForBlogBanDocument>);
-    getAllUsers(query: paginationQuerys, blogId: string): Promise<paginatedViewModel<BannedForBlogUserViewModel[]>>;
+    getAllUsers(query: paginationQuerys, blogId: string, userId: string): Promise<paginatedViewModel<BannedForBlogUserViewModel[]>>;
 }

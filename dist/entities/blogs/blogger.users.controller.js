@@ -30,8 +30,8 @@ let BloggerUsersController = class BloggerUsersController {
         await this.commandBus.execute(new ban_user_for_blog_use_case_1.BanUserForBlogCommand(param.userId, inputModel, userId));
         return res.sendStatus(204);
     }
-    async getBannedUsers(paginationQuery, param) {
-        const returnedUsers = await this.bloggerQueryRepository.getAllUsers(paginationQuery, param.blogId);
+    async getBannedUsers(userId, paginationQuery, param) {
+        const returnedUsers = await this.bloggerQueryRepository.getAllUsers(paginationQuery, param.blogId, userId);
         return returnedUsers;
     }
 };
@@ -43,17 +43,18 @@ __decorate([
     __param(2, (0, common_1.Body)()),
     __param(3, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, userModels_1.UserParamModel,
+    __metadata("design:paramtypes", [Object, userModels_1.UserBanParamModel,
         userModels_1.BanUserModelForBlog, Object]),
     __metadata("design:returntype", Promise)
 ], BloggerUsersController.prototype, "banUser", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAccessAuthGuard),
     (0, common_1.Get)('/blog/:blogId'),
-    __param(0, (0, common_1.Query)()),
-    __param(1, (0, common_1.Param)()),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)()),
+    __param(2, (0, common_1.Param)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, blogs_models_1.blogParamModel]),
+    __metadata("design:paramtypes", [Object, Object, blogs_models_1.blogParamModel]),
     __metadata("design:returntype", Promise)
 ], BloggerUsersController.prototype, "getBannedUsers", null);
 BloggerUsersController = __decorate([

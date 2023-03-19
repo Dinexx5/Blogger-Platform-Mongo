@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BannedForBlogUserViewModel = exports.SaUserViewModel = exports.userViewModel = exports.UserParamModel = exports.BanUserModelForBlog = exports.BanModel = exports.authModel = exports.NewPasswordModel = exports.ConfirmEmailModel = exports.PasswordRecoveryModel = exports.ResendEmailModel = exports.CreateUserModel = void 0;
+exports.BannedForBlogUserViewModel = exports.SaUserViewModel = exports.userViewModel = exports.UserBanParamModel = exports.UserParamModel = exports.BanUserModelForBlog = exports.BanModel = exports.authModel = exports.NewPasswordModel = exports.ConfirmEmailModel = exports.PasswordRecoveryModel = exports.ResendEmailModel = exports.CreateUserModel = void 0;
 const class_validator_1 = require("class-validator");
 const login_exists_decorator_1 = require("../../shared/decorators/validation/login-exists.decorator");
 const email_exists_decorator_1 = require("../../shared/decorators/validation/email-exists.decorator");
@@ -137,6 +137,14 @@ __decorate([
     __metadata("design:type", String)
 ], UserParamModel.prototype, "userId", void 0);
 exports.UserParamModel = UserParamModel;
+class UserBanParamModel {
+}
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], UserBanParamModel.prototype, "userId", void 0);
+exports.UserBanParamModel = UserBanParamModel;
 class userViewModel {
     constructor(id, login, email, createdAt) {
         this.id = id;

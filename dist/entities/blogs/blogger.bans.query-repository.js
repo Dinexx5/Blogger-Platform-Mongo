@@ -34,13 +34,15 @@ let BloggerBansQueryRepository = class BloggerBansQueryRepository {
         this.blogsRepository = blogsRepository;
         this.banUserForBlogModel = banUserForBlogModel;
     }
-    async getAllUsers(query, blogId) {
+    async getAllUsers(query, blogId, userId) {
         const { sortDirection = 'desc', sortBy = 'createdAt', pageNumber = 1, pageSize = 10, searchNameTerm = null, } = query;
         const sortDirectionInt = sortDirection === 'desc' ? -1 : 1;
         const skippedBlogsCount = (+pageNumber - 1) * +pageSize;
         const blogInstance = await this.blogsRepository.findBlogInstance(blogId);
         if (!blogInstance)
             throw new common_1.NotFoundException();
+        if (blogInstance.blogOwnerInfo.userId !== userId)
+            throw new common_1.ForbiddenException();
         const filter = { blogId: blogId };
         if (searchNameTerm) {
             filter.name = { $regex: searchNameTerm, $options: 'i' };

@@ -39,6 +39,7 @@ export class BanUserForBlogUseCase implements ICommandHandler<BanUserForBlogComm
     if (!blogInstance) throw new NotFoundException();
     if (blogInstance.blogOwnerInfo.userId !== ownerId) throw new ForbiddenException();
     const userInstance = await this.usersRepository.findUserById(userId);
+    if (!userInstance) throw new NotFoundException();
     const login = userInstance.accountData.login;
     if (inputModel.isBanned === true) {
       const isBannedBefore = await this.usersBansForBlogsRepository.findBanByBlogAndUserId(

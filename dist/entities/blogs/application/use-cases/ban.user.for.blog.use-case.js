@@ -50,6 +50,8 @@ let BanUserForBlogUseCase = class BanUserForBlogUseCase {
         if (blogInstance.blogOwnerInfo.userId !== ownerId)
             throw new common_1.ForbiddenException();
         const userInstance = await this.usersRepository.findUserById(userId);
+        if (!userInstance)
+            throw new common_1.NotFoundException();
         const login = userInstance.accountData.login;
         if (inputModel.isBanned === true) {
             const isBannedBefore = await this.usersBansForBlogsRepository.findBanByBlogAndUserId(inputModel.blogId, userId);

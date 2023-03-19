@@ -32,6 +32,9 @@ export declare class BanUserModelForBlog {
 export declare class UserParamModel {
     userId: string;
 }
+export declare class UserBanParamModel {
+    userId: string;
+}
 export declare class userViewModel {
     id: string;
     login: string;

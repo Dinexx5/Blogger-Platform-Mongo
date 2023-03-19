@@ -93,6 +93,12 @@ export class UserParamModel {
   userId: string;
 }
 
+export class UserBanParamModel {
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
+}
+
 export class userViewModel {
   constructor(
     public id: string,
