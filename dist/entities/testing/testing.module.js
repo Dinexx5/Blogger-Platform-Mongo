@@ -35,6 +35,8 @@ TestingModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: bans_schema_1.Ban.name, schema: bans_schema_1.BanSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: comments_like_schema_1.CommentLike.name, schema: comments_like_schema_1.CommentLikeSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: posts_like_schema_1.PostLike.name, schema: posts_like_schema_1.PostLikeSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: bans_schema_1.BlogBan.name, schema: bans_schema_1.BlogBanSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: bans_schema_1.UserForBlogBan.name, schema: bans_schema_1.BanUserForBlogSchema }]),
         ],
         providers: [],
         controllers: [testing_controller_1.TestingController],

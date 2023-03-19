@@ -9,7 +9,14 @@ import { Comment, CommentDocument } from '../comments/comments.schema';
 import { Attempt, AttemptDocument } from '../attempts/attempts.schema';
 import { Token, TokenDocument } from '../tokens/token.schema';
 import { Device, DeviceDocument } from '../devices/devices.schema';
-import { Ban, BanDocument } from '../bans/application/domain/bans.schema';
+import {
+  Ban,
+  BanDocument,
+  BlogBan,
+  BlogBanDocument,
+  UserForBlogBan,
+  UserForBlogBanDocument,
+} from '../bans/application/domain/bans.schema';
 import { PostLike, PostLikeDocument } from '../likes/posts.like.schema';
 import { CommentLike, CommentLikeDocument } from '../likes/comments.like.schema';
 
@@ -26,6 +33,8 @@ export class TestingController {
     @InjectModel(Ban.name) private banModel: Model<BanDocument>,
     @InjectModel(PostLike.name) private postLikeModel: Model<PostLikeDocument>,
     @InjectModel(CommentLike.name) private commentLikeModel: Model<CommentLikeDocument>,
+    @InjectModel(BlogBan.name) private blogBanModel: Model<BlogBanDocument>,
+    @InjectModel(UserForBlogBan.name) private banUserForBlogModel: Model<UserForBlogBanDocument>,
   ) {}
   @Delete('all-data')
   async deleteAll(@Res() res: Response) {
@@ -39,6 +48,8 @@ export class TestingController {
     await this.banModel.deleteMany({});
     await this.postLikeModel.deleteMany({});
     await this.commentLikeModel.deleteMany({});
+    await this.blogBanModel.deleteMany({});
+    await this.banUserForBlogModel.deleteMany({});
     return res.sendStatus(204);
   }
 }

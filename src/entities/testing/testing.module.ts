@@ -8,7 +8,14 @@ import { User, UserSchema } from '../users/users.schema';
 import { Attempt, AttemptSchema } from '../attempts/attempts.schema';
 import { Token, TokenSchema } from '../tokens/token.schema';
 import { Device, DeviceSchema } from '../devices/devices.schema';
-import { Ban, BanSchema } from '../bans/application/domain/bans.schema';
+import {
+  Ban,
+  BanSchema,
+  BanUserForBlogSchema,
+  BlogBan,
+  BlogBanSchema,
+  UserForBlogBan,
+} from '../bans/application/domain/bans.schema';
 import { CommentLike, CommentLikeSchema } from '../likes/comments.like.schema';
 import { PostLike, PostLikeSchema } from '../likes/posts.like.schema';
 
@@ -24,6 +31,8 @@ import { PostLike, PostLikeSchema } from '../likes/posts.like.schema';
     MongooseModule.forFeature([{ name: Ban.name, schema: BanSchema }]),
     MongooseModule.forFeature([{ name: CommentLike.name, schema: CommentLikeSchema }]),
     MongooseModule.forFeature([{ name: PostLike.name, schema: PostLikeSchema }]),
+    MongooseModule.forFeature([{ name: BlogBan.name, schema: BlogBanSchema }]),
+    MongooseModule.forFeature([{ name: UserForBlogBan.name, schema: BanUserForBlogSchema }]),
   ],
   providers: [],
   controllers: [TestingController],

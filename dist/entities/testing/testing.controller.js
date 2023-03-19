@@ -27,7 +27,7 @@ const bans_schema_1 = require("../bans/application/domain/bans.schema");
 const posts_like_schema_1 = require("../likes/posts.like.schema");
 const comments_like_schema_1 = require("../likes/comments.like.schema");
 let TestingController = class TestingController {
-    constructor(blogModel, postModel, userModel, commentModel, attemptModel, tokenModel, deviceModel, banModel, postLikeModel, commentLikeModel) {
+    constructor(blogModel, postModel, userModel, commentModel, attemptModel, tokenModel, deviceModel, banModel, postLikeModel, commentLikeModel, blogBanModel, banUserForBlogModel) {
         this.blogModel = blogModel;
         this.postModel = postModel;
         this.userModel = userModel;
@@ -38,6 +38,8 @@ let TestingController = class TestingController {
         this.banModel = banModel;
         this.postLikeModel = postLikeModel;
         this.commentLikeModel = commentLikeModel;
+        this.blogBanModel = blogBanModel;
+        this.banUserForBlogModel = banUserForBlogModel;
     }
     async deleteAll(res) {
         await this.blogModel.deleteMany({});
@@ -50,6 +52,8 @@ let TestingController = class TestingController {
         await this.banModel.deleteMany({});
         await this.postLikeModel.deleteMany({});
         await this.commentLikeModel.deleteMany({});
+        await this.blogBanModel.deleteMany({});
+        await this.banUserForBlogModel.deleteMany({});
         return res.sendStatus(204);
     }
 };
@@ -72,7 +76,11 @@ TestingController = __decorate([
     __param(7, (0, mongoose_1.InjectModel)(bans_schema_1.Ban.name)),
     __param(8, (0, mongoose_1.InjectModel)(posts_like_schema_1.PostLike.name)),
     __param(9, (0, mongoose_1.InjectModel)(comments_like_schema_1.CommentLike.name)),
+    __param(10, (0, mongoose_1.InjectModel)(bans_schema_1.BlogBan.name)),
+    __param(11, (0, mongoose_1.InjectModel)(bans_schema_1.UserForBlogBan.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
